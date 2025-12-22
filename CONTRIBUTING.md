@@ -10,7 +10,7 @@ Thank you for considering contributing to this project! Every contribution is we
 
 ```bash
 # Clone repository
-git clone https://github.com/jackd248/typo3-letter-avatar.git
+git clone https://github.com/konradmichalik/typo3-letter-avatar.git
 cd typo3-letter-avatar
 
 # Start the project with DDEV
