@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0bcf8b5672e94a3045b2e14020b53b1f",
+    "content-hash": "52d692e5765f1b9a5f0187106c27eb5f",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -7260,16 +7260,16 @@
         },
         {
             "name": "move-elevator/composer-translation-validator",
-            "version": "1.3.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/move-elevator/composer-translation-validator.git",
-                "reference": "7c99a49bdee56062d7c69eae95173d1216abe04f"
+                "reference": "c2854897ff8f0ba330c3811c7042f01888abed4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/move-elevator/composer-translation-validator/zipball/7c99a49bdee56062d7c69eae95173d1216abe04f",
-                "reference": "7c99a49bdee56062d7c69eae95173d1216abe04f",
+                "url": "https://api.github.com/repos/move-elevator/composer-translation-validator/zipball/c2854897ff8f0ba330c3811c7042f01888abed4e",
+                "reference": "c2854897ff8f0ba330c3811c7042f01888abed4e",
                 "shasum": ""
             },
             "require": {
@@ -7327,9 +7327,9 @@
             "description": "A Composer plugin that validates translations files in your project regarding mismatches between language source and target files.",
             "support": {
                 "issues": "https://github.com/move-elevator/composer-translation-validator/issues",
-                "source": "https://github.com/move-elevator/composer-translation-validator/tree/1.3.1"
+                "source": "https://github.com/move-elevator/composer-translation-validator/tree/1.4.0"
             },
-            "time": "2025-12-10T10:47:29+00:00"
+            "time": "2026-03-26T09:00:08+00:00"
         },
         {
             "name": "myclabs/deep-copy",
