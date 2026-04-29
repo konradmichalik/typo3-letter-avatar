@@ -68,10 +68,14 @@ class LetterAvatarProvider implements AvatarProviderInterface
 
     private function getName(array $backendUser): string
     {
+        $username = $backendUser['username'] ?? '';
+
         if (ConfigurationUtility::get('prioritizeRealName')) {
-            return $backendUser['realName'] ?? $backendUser['username'];
+            $realName = trim($backendUser['realName'] ?? '');
+
+            return '' !== $realName ? $realName : $username;
         }
 
-        return $backendUser['username'];
+        return $username;
     }
 }
