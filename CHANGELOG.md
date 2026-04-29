@@ -20,6 +20,10 @@ All notable changes to this project will be documented in this file.
 - Migrated fixture and sitepackage paths from `Tests/.typo3-setup/` to `Tests/Acceptance/Fixtures/` (DDEV addon convention)
 - Update `konradmichalik/ddev-typo3-multi-version-extension` addon for fixture auto-discovery
 
+### Fixed
+- Register avatar provider via DI tag `backend.avatar_provider` (TYPO3 v14 ignores the legacy globals registration)
+- Fall back to `username` when `realName` is empty (not only when missing) — backend users without a real name (e.g. `admin`) now get an avatar based on their username
+
 ### Removed
 - Support for TYPO3 v11.5
 - Support for TYPO3 v12.4
