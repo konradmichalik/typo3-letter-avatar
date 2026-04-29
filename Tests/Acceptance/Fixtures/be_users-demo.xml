@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3RecordDocument>
+    <header type="array">
+        <XMLversion>1.0</XMLversion>
+        <meta type="array">
+            <title>Letter avatar demo BE users</title>
+            <description>Six demo backend users covering letter-avatar edge cases (umlaut, apostrophe, short name, long name, unicode, custom avatar override placeholder).</description>
+            <notes></notes>
+            <packager_username>admin</packager_username>
+            <packager_name></packager_name>
+            <packager_email></packager_email>
+            <TYPO3_version>13.4.0</TYPO3_version>
+            <created>Sun 28. Apr 2026</created>
+        </meta>
+        <static_tables index="relStaticTables" type="array"></static_tables>
+        <excludeMap type="array">
+            <item index="be_users:1">1</item>
+        </excludeMap>
+        <softrefCfg type="array"></softrefCfg>
+        <extensionDependencies type="array"></extensionDependencies>
+        <charset>utf-8</charset>
+        <pagetree type="array">
+            <node index="0" type="array">
+                <uid>0</uid>
+            </node>
+        </pagetree>
+        <records type="array">
+            <table index="be_users" type="array">
+                <rec index="101" type="array">
+                    <uid>101</uid>
+                    <pid>0</pid>
+                    <title>editor.maria</title>
+                    <relations index="rels" type="array"></relations>
+                    <softrefs type="array"></softrefs>
+                </rec>
+                <rec index="102" type="array">
+                    <uid>102</uid>
+                    <pid>0</pid>
+                    <title>editor.thomas</title>
+                    <relations index="rels" type="array"></relations>
+                    <softrefs type="array"></softrefs>
+                </rec>
+                <rec index="103" type="array">
+                    <uid>103</uid>
+                    <pid>0</pid>
+                    <title>editor.li</title>
+                    <relations index="rels" type="array"></relations>
+                    <softrefs type="array"></softrefs>
+                </rec>
+                <rec index="104" type="array">
+                    <uid>104</uid>
+                    <pid>0</pid>
+                    <title>editor.gif</title>
+                    <relations index="rels" type="array"></relations>
+                    <softrefs type="array"></softrefs>
+                </rec>
+                <rec index="105" type="array">
+                    <uid>105</uid>
+                    <pid>0</pid>
+                    <title>editor.long</title>
+                    <relations index="rels" type="array"></relations>
+                    <softrefs type="array"></softrefs>
+                </rec>
+                <rec index="106" type="array">
+                    <uid>106</uid>
+                    <pid>0</pid>
+                    <title>editor.unicode</title>
+                    <relations index="rels" type="array"></relations>
+                    <softrefs type="array"></softrefs>
+                </rec>
+            </table>
+        </records>
+        <pid_lookup type="array">
+            <page_contents index="0" type="array">
+                <table index="be_users" type="array">
+                    <item index="101">1</item>
+                    <item index="102">1</item>
+                    <item index="103">1</item>
+                    <item index="104">1</item>
+                    <item index="105">1</item>
+                    <item index="106">1</item>
+                </table>
+            </page_contents>
+        </pid_lookup>
+    </header>
+    <records type="array">
+        <tablerow index="be_users:101" type="array">
+            <fieldlist index="data" type="array">
+                <field index="uid" type="integer">101</field>
+                <field index="pid" type="integer">0</field>
+                <field index="tstamp" type="integer">1714000000</field>
+                <field index="crdate" type="integer">1714000000</field>
+                <field index="deleted" type="integer">0</field>
+                <field index="disable" type="integer">0</field>
+                <field index="starttime" type="integer">0</field>
+                <field index="endtime" type="integer">0</field>
+                <field index="description"></field>
+                <field index="username">editor.maria</field>
+                <field index="avatar" type="integer">0</field>
+                <field index="password">$argon2i$v=19$m=65536,t=16,p=1$dXh4N2pleW9wZTRpZXg2MA$placeholder_hash_disabled_login</field>
+                <field index="admin" type="integer">0</field>
+                <field index="usergroup"></field>
+                <field index="lang">default</field>
+                <field index="email">maria@example.com</field>
+                <field index="db_mountpoints"></field>
+                <field index="options" type="integer">3</field>
+                <field index="realName">Maria Müller</field>
+                <field index="userMods"></field>
+                <field index="allowed_languages"></field>
+                <field index="uc"></field>
+                <field index="file_mountpoints"></field>
+                <field index="file_permissions"></field>
+                <field index="workspace_perms" type="integer">1</field>
+                <field index="TSconfig"></field>
+                <field index="workspace_id" type="integer">0</field>
+                <field index="mfa" type="NULL"></field>
+                <field index="category_perms">0</field>
+                <field index="lastlogin" type="integer">0</field>
+                <field index="password_reset_token"></field>
+                <field index="tx_Typo3LetterAvatar_disable" type="integer">0</field>
+            </fieldlist>
+            <related index="rels" type="array"></related>
+        </tablerow>
+        <tablerow index="be_users:102" type="array">
+            <fieldlist index="data" type="array">
+                <field index="uid" type="integer">102</field>
+                <field index="pid" type="integer">0</field>
+                <field index="tstamp" type="integer">1714000000</field>
+                <field index="crdate" type="integer">1714000000</field>
+                <field index="deleted" type="integer">0</field>
+                <field index="disable" type="integer">0</field>
+                <field index="starttime" type="integer">0</field>
+                <field index="endtime" type="integer">0</field>
+                <field index="description"></field>
+                <field index="username">editor.thomas</field>
+                <field index="avatar" type="integer">0</field>
+                <field index="password">$argon2i$v=19$m=65536,t=16,p=1$dXh4N2pleW9wZTRpZXg2MA$placeholder_hash_disabled_login</field>
+                <field index="admin" type="integer">0</field>
+                <field index="usergroup"></field>
+                <field index="lang">default</field>
+                <field index="email">thomas@example.com</field>
+                <field index="db_mountpoints"></field>
+                <field index="options" type="integer">3</field>
+                <field index="realName">Thomas O'Brien</field>
+                <field index="userMods"></field>
+                <field index="allowed_languages"></field>
+                <field index="uc"></field>
+                <field index="file_mountpoints"></field>
+                <field index="file_permissions"></field>
+                <field index="workspace_perms" type="integer">1</field>
+                <field index="TSconfig"></field>
+                <field index="workspace_id" type="integer">0</field>
+                <field index="mfa" type="NULL"></field>
+                <field index="category_perms">0</field>
+                <field index="lastlogin" type="integer">0</field>
+                <field index="password_reset_token"></field>
+                <field index="tx_Typo3LetterAvatar_disable" type="integer">0</field>
+            </fieldlist>
+            <related index="rels" type="array"></related>
+        </tablerow>
+        <tablerow index="be_users:103" type="array">
+            <fieldlist index="data" type="array">
+                <field index="uid" type="integer">103</field>
+                <field index="pid" type="integer">0</field>
+                <field index="tstamp" type="integer">1714000000</field>
+                <field index="crdate" type="integer">1714000000</field>
+                <field index="deleted" type="integer">0</field>
+                <field index="disable" type="integer">0</field>
+                <field index="starttime" type="integer">0</field>
+                <field index="endtime" type="integer">0</field>
+                <field index="description"></field>
+                <field index="username">editor.li</field>
+                <field index="avatar" type="integer">0</field>
+                <field index="password">$argon2i$v=19$m=65536,t=16,p=1$dXh4N2pleW9wZTRpZXg2MA$placeholder_hash_disabled_login</field>
+                <field index="admin" type="integer">0</field>
+                <field index="usergroup"></field>
+                <field index="lang">default</field>
+                <field index="email">li@example.com</field>
+                <field index="db_mountpoints"></field>
+                <field index="options" type="integer">3</field>
+                <field index="realName">Li Wei</field>
+                <field index="userMods"></field>
+                <field index="allowed_languages"></field>
+                <field index="uc"></field>
+                <field index="file_mountpoints"></field>
+                <field index="file_permissions"></field>
+                <field index="workspace_perms" type="integer">1</field>
+                <field index="TSconfig"></field>
+                <field index="workspace_id" type="integer">0</field>
+                <field index="mfa" type="NULL"></field>
+                <field index="category_perms">0</field>
+                <field index="lastlogin" type="integer">0</field>
+                <field index="password_reset_token"></field>
+                <field index="tx_Typo3LetterAvatar_disable" type="integer">0</field>
+            </fieldlist>
+            <related index="rels" type="array"></related>
+        </tablerow>
+        <tablerow index="be_users:104" type="array">
+            <fieldlist index="data" type="array">
+                <field index="uid" type="integer">104</field>
+                <field index="pid" type="integer">0</field>
+                <field index="tstamp" type="integer">1714000000</field>
+                <field index="crdate" type="integer">1714000000</field>
+                <field index="deleted" type="integer">0</field>
+                <field index="disable" type="integer">0</field>
+                <field index="starttime" type="integer">0</field>
+                <field index="endtime" type="integer">0</field>
+                <field index="description"></field>
+                <field index="username">editor.gif</field>
+                <field index="avatar" type="integer">0</field>
+                <field index="password">$argon2i$v=19$m=65536,t=16,p=1$dXh4N2pleW9wZTRpZXg2MA$placeholder_hash_disabled_login</field>
+                <field index="admin" type="integer">0</field>
+                <field index="usergroup"></field>
+                <field index="lang">default</field>
+                <field index="email">gif@example.com</field>
+                <field index="db_mountpoints"></field>
+                <field index="options" type="integer">3</field>
+                <field index="realName">Gif User</field>
+                <field index="userMods"></field>
+                <field index="allowed_languages"></field>
+                <field index="uc"></field>
+                <field index="file_mountpoints"></field>
+                <field index="file_permissions"></field>
+                <field index="workspace_perms" type="integer">1</field>
+                <field index="TSconfig"></field>
+                <field index="workspace_id" type="integer">0</field>
+                <field index="mfa" type="NULL"></field>
+                <field index="category_perms">0</field>
+                <field index="lastlogin" type="integer">0</field>
+                <field index="password_reset_token"></field>
+                <field index="tx_Typo3LetterAvatar_disable" type="integer">0</field>
+            </fieldlist>
+            <related index="rels" type="array"></related>
+        </tablerow>
+        <tablerow index="be_users:105" type="array">
+            <fieldlist index="data" type="array">
+                <field index="uid" type="integer">105</field>
+                <field index="pid" type="integer">0</field>
+                <field index="tstamp" type="integer">1714000000</field>
+                <field index="crdate" type="integer">1714000000</field>
+                <field index="deleted" type="integer">0</field>
+                <field index="disable" type="integer">0</field>
+                <field index="starttime" type="integer">0</field>
+                <field index="endtime" type="integer">0</field>
+                <field index="description"></field>
+                <field index="username">editor.long</field>
+                <field index="avatar" type="integer">0</field>
+                <field index="password">$argon2i$v=19$m=65536,t=16,p=1$dXh4N2pleW9wZTRpZXg2MA$placeholder_hash_disabled_login</field>
+                <field index="admin" type="integer">0</field>
+                <field index="usergroup"></field>
+                <field index="lang">default</field>
+                <field index="email">long@example.com</field>
+                <field index="db_mountpoints"></field>
+                <field index="options" type="integer">3</field>
+                <field index="realName">Maximilian Hubertus von Habsburg-Lothringen</field>
+                <field index="userMods"></field>
+                <field index="allowed_languages"></field>
+                <field index="uc"></field>
+                <field index="file_mountpoints"></field>
+                <field index="file_permissions"></field>
+                <field index="workspace_perms" type="integer">1</field>
+                <field index="TSconfig"></field>
+                <field index="workspace_id" type="integer">0</field>
+                <field index="mfa" type="NULL"></field>
+                <field index="category_perms">0</field>
+                <field index="lastlogin" type="integer">0</field>
+                <field index="password_reset_token"></field>
+                <field index="tx_Typo3LetterAvatar_disable" type="integer">0</field>
+            </fieldlist>
+            <related index="rels" type="array"></related>
+        </tablerow>
+        <tablerow index="be_users:106" type="array">
+            <fieldlist index="data" type="array">
+                <field index="uid" type="integer">106</field>
+                <field index="pid" type="integer">0</field>
+                <field index="tstamp" type="integer">1714000000</field>
+                <field index="crdate" type="integer">1714000000</field>
+                <field index="deleted" type="integer">0</field>
+                <field index="disable" type="integer">0</field>
+                <field index="starttime" type="integer">0</field>
+                <field index="endtime" type="integer">0</field>
+                <field index="description"></field>
+                <field index="username">editor.unicode</field>
+                <field index="avatar" type="integer">0</field>
+                <field index="password">$argon2i$v=19$m=65536,t=16,p=1$dXh4N2pleW9wZTRpZXg2MA$placeholder_hash_disabled_login</field>
+                <field index="admin" type="integer">0</field>
+                <field index="usergroup"></field>
+                <field index="lang">default</field>
+                <field index="email">unicode@example.com</field>
+                <field index="db_mountpoints"></field>
+                <field index="options" type="integer">3</field>
+                <field index="realName">Émilie Łukasiewicz</field>
+                <field index="userMods"></field>
+                <field index="allowed_languages"></field>
+                <field index="uc"></field>
+                <field index="file_mountpoints"></field>
+                <field index="file_permissions"></field>
+                <field index="workspace_perms" type="integer">1</field>
+                <field index="TSconfig"></field>
+                <field index="workspace_id" type="integer">0</field>
+                <field index="mfa" type="NULL"></field>
+                <field index="category_perms">0</field>
+                <field index="lastlogin" type="integer">0</field>
+                <field index="password_reset_token"></field>
+                <field index="tx_Typo3LetterAvatar_disable" type="integer">0</field>
+            </fieldlist>
+            <related index="rels" type="array"></related>
+        </tablerow>
+    </records>
+</T3RecordDocument>
