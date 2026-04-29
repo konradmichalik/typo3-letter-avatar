@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Support for Fluid v5
 - Support for PHP 8.5
 - Demo backend user fixtures for DDEV setup (auto-imported via `ddev install`)
+- Extended unit test coverage with edge-case tests (apostrophes, unicode, long names, umlauts, two-char first names) matching demo backend user fixtures
 
 ### Changed
 - Migrate fixture and sitepackage paths from `Tests/.typo3-setup/` to `Tests/Acceptance/Fixtures/` (DDEV addon convention)
