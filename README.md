@@ -18,6 +18,9 @@ This TYPO3 extension generates colorful backend user avatars using name initials
 
 ![user-list.jpg](Documentation/Images/user-list.jpg)
 
+> [!NOTE]
+> TYPO3's default backend shows the same silhouette for every user without an uploaded avatar — making large user lists hard to scan. This extension generates a colored letter avatar per user automatically: no uploads, no external services, deterministic colors per name.
+
 ## ✨ Features
 
 * Generates out-of-the-box colorful avatars for backend users
