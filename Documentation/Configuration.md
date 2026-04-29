@@ -1,5 +1,7 @@
 # Configuration
 
+> **Note:** Examples below apply to TYPO3 v13.4 LTS and v14.x. For v11/v12 compatibility, use the 1.x line of this extension.
+
 ## Extension Configuration
 
 Configure the extension via `Admin Tools > Settings > Extension Configuration > typo3_letter_avatar`:
