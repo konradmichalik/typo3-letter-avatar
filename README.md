@@ -18,6 +18,18 @@ This TYPO3 extension generates colorful backend user avatars using name initials
 
 ![user-list.jpg](Documentation/Images/user-list.jpg)
 
+## 🤔 Why
+
+TYPO3's default backend shows a generic silhouette icon for every user without a manually uploaded avatar. In teams of more than a handful of editors, the user list, log entries, and edit history quickly turn into a wall of identical icons — making it harder to scan and recognize who did what.
+
+This extension fills that gap by generating recognizable letter avatars from each user's real name (or username) on the fly:
+
+* **Visual scannability** — distinct color + initials per user makes lists, history entries, and review screens easier to read at a glance.
+* **No uploads required** — works automatically for every backend user, no editor onboarding step needed.
+* **Privacy-friendly** — no profile pictures, no external avatar services (Gravatar, etc.), no third-party data transfer. Everything is generated locally.
+* **Deterministic colors** — the same name always produces the same color (in `stringify` and `pairs` modes), so users keep their identity across sessions.
+* **Configurable** — pick from multiple color modes, themes, fonts, and shapes; or extend with custom themes via `ext_localconf.php`.
+
 ## ✨ Features
 
 * Generates out-of-the-box colorful avatars for backend users
