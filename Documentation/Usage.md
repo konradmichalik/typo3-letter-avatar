@@ -1,5 +1,7 @@
 # Usage
 
+> **Note:** Examples below apply to TYPO3 v13.4 LTS and v14.x. For v11/v12 compatibility, use the 1.x line of this extension.
+
 ## Backend Users
 
 The extension works automatically for backend users after installation. Run setup command to generate avatars for existing users:
