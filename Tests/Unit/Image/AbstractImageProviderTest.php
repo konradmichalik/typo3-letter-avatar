@@ -33,8 +33,6 @@ final class AbstractImageProviderTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         // Mock configuration for testing
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
             'imagePath' => '/typo3temp/assets/avatars/',
@@ -62,7 +60,6 @@ class(name: 'Test User', size: 100, fontSize: 0.5, mode: ColorMode::CUSTOM, fore
     protected function tearDown(): void
     {
         unset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]);
-        parent::tearDown();
     }
 
     #[Test]
@@ -82,7 +79,6 @@ class(name: 'Test User', size: 100, fontSize: 0.5, mode: ColorMode::CUSTOM, fore
         // Access protected property via reflection
         $reflection = new ReflectionClass($this->imageProvider);
         $property = $reflection->getProperty('colorizeService');
-        $property->setAccessible(true);
 
         $colorizeService = $property->getValue($this->imageProvider);
 
@@ -108,7 +104,6 @@ class(name: 'Test User', size: 100, fontSize: 0.5, mode: ColorMode::CUSTOM, fore
         // Call protected method via reflection
         $reflection = new ReflectionClass($this->imageProvider);
         $method = $reflection->getMethod('configToHash');
-        $method->setAccessible(true);
 
         $hash1 = $method->invoke($this->imageProvider);
         $hash2 = $method->invoke($this->imageProvider);
@@ -123,7 +118,6 @@ class(name: 'Test User', size: 100, fontSize: 0.5, mode: ColorMode::CUSTOM, fore
     {
         $reflection = new ReflectionClass($this->imageProvider);
         $method = $reflection->getMethod('configToHash');
-        $method->setAccessible(true);
 
         $hash1 = $method->invoke($this->imageProvider);
 

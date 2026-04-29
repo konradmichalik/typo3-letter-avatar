@@ -29,14 +29,10 @@ class Avatar
         $imageDriver = $args['imageDriver'] ?? $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'];
         unset($args['imageDriver']);
 
-        switch ($imageDriver) {
-            case ImageDriver::IMAGICK:
-            default:
-                return new Imagick(...$args);
-            case ImageDriver::GD:
-                return new Gd(...$args);
-            case ImageDriver::GMAGICK:
-                return new Gmagick(...$args);
-        }
+        return match ($imageDriver) {
+            ImageDriver::GD => new Gd(...$args),
+            ImageDriver::GMAGICK => new Gmagick(...$args),
+            default => new Imagick(...$args),
+        };
     }
 }

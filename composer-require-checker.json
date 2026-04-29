@@ -1,0 +1,22 @@
+{
+	"symbol-whitelist": [
+		"Gmagick",
+		"GmagickDraw",
+		"GdImage",
+		"Imagick",
+		"imagecolorallocate",
+		"imagecolorallocatealpha",
+		"imagecreatetruecolor",
+		"imagedestroy",
+		"imagefill",
+		"imagefilledellipse",
+		"imagefilledrectangle",
+		"imagejpeg",
+		"imagepng",
+		"imagesavealpha",
+		"imagettfbbox",
+		"imagettftext",
+		"ImagickDraw",
+		"ImagickPixel"
+	]
+}

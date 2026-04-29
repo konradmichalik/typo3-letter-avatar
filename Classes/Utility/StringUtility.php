@@ -61,6 +61,6 @@ class StringUtility
         // Remove multiple spaces and split by single space
         $cleaned = preg_replace('/\s+/', ' ', trim($name));
 
-        return array_filter(explode(' ', $cleaned), static fn (string $word): bool => '' !== $word && ',' !== $word);
+        return array_filter(explode(' ', (string) $cleaned), static fn (string $word): bool => '' !== $word && ',' !== $word);
     }
 }

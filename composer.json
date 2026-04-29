@@ -41,7 +41,9 @@
 	"config": {
 		"allow-plugins": {
 			"eliashaeussler/version-bumper": true,
+			"ergebnis/composer-normalize": true,
 			"helhum/dotenv-connector": true,
+			"move-elevator/composer-translation-validator": true,
 			"php-http/discovery": true,
 			"typo3/class-alias-loader": true,
 			"typo3/cms-composer-installers": true

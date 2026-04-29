@@ -29,8 +29,6 @@ final class ConfigurationUtilityTest extends TestCase
 {
     protected function setUp(): void
     {
-        parent::setUp();
-
         // Simple TYPO3_CONF_VARS configuration without framework mocking
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
             'size' => 100,
@@ -47,7 +45,6 @@ final class ConfigurationUtilityTest extends TestCase
     protected function tearDown(): void
     {
         unset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]);
-        parent::tearDown();
     }
 
     #[Test]

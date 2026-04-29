@@ -29,8 +29,6 @@ final class AvatarTest extends TestCase
 {
     protected function setUp(): void
     {
-        parent::setUp();
-
         // Mock TYPO3_CONF_VARS for image driver configuration
         $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] = 'ImageMagick';
     }

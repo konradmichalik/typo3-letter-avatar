@@ -33,8 +33,6 @@ final class ColorizeTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         // Set up mock configuration for testing
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
             'random' => [
@@ -70,7 +68,6 @@ final class ColorizeTest extends TestCase
     protected function tearDown(): void
     {
         unset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]);
-        parent::tearDown();
     }
 
     #[Test]

@@ -31,7 +31,6 @@ final class ClearAvatarsCommandTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
         $this->command = new ClearAvatarsCommand();
     }
 

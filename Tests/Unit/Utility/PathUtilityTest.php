@@ -32,8 +32,6 @@ final class PathUtilityTest extends TestCase
 {
     protected function setUp(): void
     {
-        parent::setUp();
-
         // Mock TYPO3 configuration
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
             'imagePath' => '/typo3temp/assets/avatars/',
@@ -48,7 +46,6 @@ final class PathUtilityTest extends TestCase
     protected function tearDown(): void
     {
         unset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]);
-        parent::tearDown();
     }
 
     #[Test]
