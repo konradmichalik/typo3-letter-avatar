@@ -14,11 +14,7 @@ for version in "${versions[@]}"; do
     TYPO3_PATH="/var/www/html/.test/${version}"
     if [ -d "$TYPO3_PATH" ]; then
         if [[ $command == typo3* ]]; then
-            if [[ $version == 11 ]]; then
-                tempCommand="/usr/bin/php vendor/bin/typo3cms${command:5}"
-            else
-                tempCommand="/usr/bin/php vendor/bin/${command}"
-            fi
+            tempCommand="/usr/bin/php vendor/bin/${command}"
         fi
         cd $TYPO3_PATH
         message magenta "[TYPO3 v${version}] ${tempCommand}"
