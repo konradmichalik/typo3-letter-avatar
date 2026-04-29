@@ -5,7 +5,8 @@ services:
             - EXTENSION_KEY=typo3_letter_avatar
             - EXTENSION_NAME=typo3-letter-avatar
             - PACKAGE_NAME=konradmichalik/typo3-letter-avatar
-            - TYPO3_VERSIONS=13 14
+            - TYPO3_VERSIONS=12 13 14
+            - SYMLINK_EXCLUSIONS=.* Documentation Documentation-GENERATED-temp var vendor public
 
             # TYPO3 v11 and v12 config
             - TYPO3_INSTALL_DB_DRIVER=mysqli
@@ -20,7 +21,7 @@ services:
             - TYPO3_INSTALL_SITE_SETUP_TYPE=site
             - TYPO3_INSTALL_WEB_SERVER_CONFIG=apache
 
-            # TYPO3 v13 config
+            # TYPO3 v13 and v14 config
             - TYPO3_DB_DRIVER=mysqli
             - TYPO3_DB_USERNAME=root
             - TYPO3_DB_PASSWORD=root
