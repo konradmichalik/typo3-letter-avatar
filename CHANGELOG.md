@@ -10,3 +10,4 @@ All notable changes to this project will be documented in this file.
 - Support for Symfony Console v5
 - Support for Symfony Console v6
 - Support for Fluid v2
+- Support for PHP 8.1
