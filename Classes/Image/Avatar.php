@@ -3,36 +3,24 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the TYPO3 CMS extension "typo3_letter_avatar".
+ * This file is part of the "typo3_letter_avatar" TYPO3 CMS extension.
  *
- * Copyright (C) 2025 Konrad Michalik <hej@konradmichalik.dev>
+ * (c) Konrad Michalik <hej@konradmichalik.dev>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace KonradMichalik\Typo3LetterAvatar\Image;
 
 use KonradMichalik\Typo3LetterAvatar\Enum\ImageDriver;
-use KonradMichalik\Typo3LetterAvatar\Image\Driver\Gd;
-use KonradMichalik\Typo3LetterAvatar\Image\Driver\Gmagick;
-use KonradMichalik\Typo3LetterAvatar\Image\Driver\Imagick;
+use KonradMichalik\Typo3LetterAvatar\Image\Driver\{Gd, Gmagick, Imagick};
 
 /**
  * Avatar.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
- * @license GPL-2.0
+ * @license GPL-2.0-or-later
  */
 class Avatar
 {
@@ -41,14 +29,10 @@ class Avatar
         $imageDriver = $args['imageDriver'] ?? $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'];
         unset($args['imageDriver']);
 
-        switch ($imageDriver) {
-            case ImageDriver::IMAGICK:
-            default:
-                return new Imagick(...$args);
-            case ImageDriver::GD:
-                return new Gd(...$args);
-            case ImageDriver::GMAGICK:
-                return new Gmagick(...$args);
-        }
+        return match ($imageDriver) {
+            ImageDriver::GD => new Gd(...$args),
+            ImageDriver::GMAGICK => new Gmagick(...$args),
+            default => new Imagick(...$args),
+        };
     }
 }

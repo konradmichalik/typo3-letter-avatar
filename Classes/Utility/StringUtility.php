@@ -3,22 +3,12 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the TYPO3 CMS extension "typo3_letter_avatar".
+ * This file is part of the "typo3_letter_avatar" TYPO3 CMS extension.
  *
- * Copyright (C) 2025 Konrad Michalik <hej@konradmichalik.dev>
+ * (c) Konrad Michalik <hej@konradmichalik.dev>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace KonradMichalik\Typo3LetterAvatar\Utility;
@@ -29,18 +19,18 @@ use KonradMichalik\Typo3LetterAvatar\Enum\Transform;
  * StringUtility.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
- * @license GPL-2.0
+ * @license GPL-2.0-or-later
  */
 class StringUtility
 {
     public static function resolveInitials(string $name, string $preSetInitials = '', Transform $transform = Transform::NONE): string
     {
-        if ($preSetInitials !== '') {
+        if ('' !== $preSetInitials) {
             return self::applyTransform($preSetInitials, $transform);
         }
 
         $nameParts = self::splitName($name);
-        if ($nameParts === []) {
+        if ([] === $nameParts) {
             return '';
         }
 
@@ -70,6 +60,7 @@ class StringUtility
     {
         // Remove multiple spaces and split by single space
         $cleaned = preg_replace('/\s+/', ' ', trim($name));
-        return array_filter(explode(' ', $cleaned), fn(string $word): bool => $word !== '' && $word !== ',');
+
+        return array_filter(explode(' ', (string) $cleaned), static fn (string $word): bool => '' !== $word && ',' !== $word);
     }
 }

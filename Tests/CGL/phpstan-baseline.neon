@@ -1,0 +1,259 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method KonradMichalik\\Typo3LetterAvatar\\AvatarProvider\\LetterAvatarProvider\:\:getImage\(\) has parameter \$backendUser with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/AvatarProvider/LetterAvatarProvider.php
+
+		-
+			message: '#^Method KonradMichalik\\Typo3LetterAvatar\\AvatarProvider\\LetterAvatarProvider\:\:getName\(\) has parameter \$backendUser with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/AvatarProvider/LetterAvatarProvider.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, array\|bool\|float\|int\|KonradMichalik\\Typo3LetterAvatar\\Enum\\EnumInterface\|string\|null given\.$#'
+			identifier: if.condNotBoolean
+			count: 1
+			path: ../../Classes/AvatarProvider/LetterAvatarProvider.php
+
+		-
+			message: '#^Method KonradMichalik\\Typo3LetterAvatar\\Event\\BackendUserAvatarConfigurationEvent\:\:__construct\(\) has parameter \$backendUser with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/Event/BackendUserAvatarConfigurationEvent.php
+
+		-
+			message: '#^Method KonradMichalik\\Typo3LetterAvatar\\Event\\BackendUserAvatarConfigurationEvent\:\:__construct\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/Event/BackendUserAvatarConfigurationEvent.php
+
+		-
+			message: '#^Method KonradMichalik\\Typo3LetterAvatar\\Event\\BackendUserAvatarConfigurationEvent\:\:getBackendUser\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/Event/BackendUserAvatarConfigurationEvent.php
+
+		-
+			message: '#^Method KonradMichalik\\Typo3LetterAvatar\\Event\\BackendUserAvatarConfigurationEvent\:\:getConfiguration\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/Event/BackendUserAvatarConfigurationEvent.php
+
+		-
+			message: '#^Method KonradMichalik\\Typo3LetterAvatar\\Event\\BackendUserAvatarConfigurationEvent\:\:setConfiguration\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/Event/BackendUserAvatarConfigurationEvent.php
+
+		-
+			message: '#^Method KonradMichalik\\Typo3LetterAvatar\\Image\\Avatar\:\:create\(\) has parameter \$args with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../../Classes/Image/Avatar.php
+
+		-
+			message: '#^Cannot access offset 0 on array\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Cannot access offset 1 on array\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Cannot access offset 2 on array\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Cannot access offset 5 on array\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Cannot call method resolveBackgroundColor\(\) on KonradMichalik\\Typo3LetterAvatar\\Service\\Colorize\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Cannot call method resolveForegroundColor\(\) on KonradMichalik\\Typo3LetterAvatar\\Service\\Colorize\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Cannot use array destructuring on list\<int\|null\>\|null\.$#'
+			identifier: offsetAccess.nonArray
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Parameter \#1 \$image of function imagedestroy expects GdImage, GdImage\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Parameter \#1 \$image of function imagejpeg expects GdImage, GdImage\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Parameter \#1 \$image of function imagepng expects GdImage, GdImage\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Parameter \#1 \$width of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Parameter \#2 \$height of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Parameter \#2 \$red of function imagecolorallocate expects int\<0, 255\>, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Parameter \#3 \$color of method KonradMichalik\\Typo3LetterAvatar\\Image\\Driver\\Gd\:\:drawText\(\) expects int, bool\|int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Parameter \#3 \$green of function imagecolorallocate expects int\<0, 255\>, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Parameter \#4 \$blue of function imagecolorallocate expects int\<0, 255\>, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Parameter \#4 \$color of function imagefill expects int, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Parameter \#6 \$color of function imagefilledellipse expects int, bool\|int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Parameter \#6 \$color of function imagefilledrectangle expects int, bool\|int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../Classes/Image/Driver/Gd.php
+
+		-
+			message: '#^Cannot call method resolveBackgroundColor\(\) on KonradMichalik\\Typo3LetterAvatar\\Service\\Colorize\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../../Classes/Image/Driver/Gmagick.php
+
+		-
+			message: '#^Cannot call method resolveForegroundColor\(\) on KonradMichalik\\Typo3LetterAvatar\\Service\\Colorize\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../../Classes/Image/Driver/Gmagick.php
+
+		-
+			message: '#^Cannot call method resolveBackgroundColor\(\) on KonradMichalik\\Typo3LetterAvatar\\Service\\Colorize\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../../Classes/Image/Driver/Imagick.php
+
+		-
+			message: '#^Cannot call method resolveForegroundColor\(\) on KonradMichalik\\Typo3LetterAvatar\\Service\\Colorize\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../../Classes/Image/Driver/Imagick.php
+
+		-
+			message: '#^Method KonradMichalik\\Typo3LetterAvatar\\Service\\Colorize\:\:getConfigRandom\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/Service/Colorize.php
+
+		-
+			message: '#^Method KonradMichalik\\Typo3LetterAvatar\\Service\\Colorize\:\:getRandomConfig\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/Service/Colorize.php
+
+		-
+			message: '#^Method KonradMichalik\\Typo3LetterAvatar\\Service\\Colorize\:\:getThemeConfig\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/Service/Colorize.php
+
+		-
+			message: '#^Property KonradMichalik\\Typo3LetterAvatar\\Service\\Colorize\:\:\$backgroundColors type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/Service/Colorize.php
+
+		-
+			message: '#^Property KonradMichalik\\Typo3LetterAvatar\\Service\\Colorize\:\:\$foregroundColors type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/Service/Colorize.php
+
+		-
+			message: '#^Method KonradMichalik\\Typo3LetterAvatar\\Utility\\ConfigurationUtility\:\:get\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/Utility/ConfigurationUtility.php
+
+		-
+			message: '#^Parameter \#1 \$objectOrClass of class ReflectionClass constructor expects class\-string\<T of object\>\|T of object, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../../Classes/Utility/ConfigurationUtility.php
+
+		-
+			message: '#^Binary operation "\." between array\|bool\|float\|int\|KonradMichalik\\Typo3LetterAvatar\\Enum\\EnumInterface\|string\|null and string results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: ../../Classes/Utility/PathUtility.php
+
+		-
+			message: '#^Binary operation "\." between string and array\|bool\|float\|int\|KonradMichalik\\Typo3LetterAvatar\\Enum\\EnumInterface\|string\|null results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: ../../Classes/Utility/PathUtility.php
+
+		-
+			message: '#^Method KonradMichalik\\Typo3LetterAvatar\\Utility\\StringUtility\:\:splitName\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../Classes/Utility/StringUtility.php
+
+		-
+			message: '#^Cognitive complexity for "KonradMichalik\\Typo3LetterAvatar\\ViewHelpers\\AvatarViewHelper\:\:render\(\)" is 11, keep it under 10$#'
+			identifier: complexity.functionLike
+			count: 1
+			path: ../../Classes/ViewHelpers/AvatarViewHelper.php
