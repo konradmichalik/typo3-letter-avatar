@@ -2,8 +2,6 @@ type: php
 docroot: .Build
 webserver_type: apache-fpm
 additional_hostnames:
-  - 11.typo3-letter-avatar
-  - 12.typo3-letter-avatar
   - 13.typo3-letter-avatar
   - 14.typo3-letter-avatar
 hooks:
