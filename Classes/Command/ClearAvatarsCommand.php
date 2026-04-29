@@ -48,7 +48,7 @@ final class ClearAvatarsCommand extends Command
         $imageCount = 0;
         if (is_dir($path)) {
             $files = scandir($path);
-            $imageCount = count(array_filter($files, static fn(string $file): bool => is_file($path.\DIRECTORY_SEPARATOR.$file) && 1 === preg_match('/\.(png|jpg|jpeg)$/i', $file)));
+            $imageCount = count(array_filter($files, static fn (string $file): bool => is_file($path.\DIRECTORY_SEPARATOR.$file) && 1 === preg_match('/\.(png|jpg|jpeg)$/i', $file)));
         }
 
         if ((bool) $input->getOption('dry-run')) {

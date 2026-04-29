@@ -253,12 +253,6 @@ parameters:
 			path: ../../Classes/Utility/StringUtility.php
 
 		-
-			message: '#^Parameter \#2 \$string of function explode expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../Classes/Utility/StringUtility.php
-
-		-
 			message: '#^Cognitive complexity for "KonradMichalik\\Typo3LetterAvatar\\ViewHelpers\\AvatarViewHelper\:\:render\(\)" is 11, keep it under 10$#'
 			identifier: complexity.functionLike
 			count: 1
