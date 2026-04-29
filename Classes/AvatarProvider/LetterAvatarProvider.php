@@ -3,35 +3,22 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the TYPO3 CMS extension "typo3_letter_avatar".
+ * This file is part of the "typo3_letter_avatar" TYPO3 CMS extension.
  *
- * Copyright (C) 2025 Konrad Michalik <hej@konradmichalik.dev>
+ * (c) Konrad Michalik <hej@konradmichalik.dev>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace KonradMichalik\Typo3LetterAvatar\AvatarProvider;
 
-use KonradMichalik\Typo3LetterAvatar\Enum\ColorMode;
-use KonradMichalik\Typo3LetterAvatar\Enum\ImageFormat;
-use KonradMichalik\Typo3LetterAvatar\Enum\Shape;
-use KonradMichalik\Typo3LetterAvatar\Enum\Transform;
+use InvalidArgumentException;
+use KonradMichalik\Typo3LetterAvatar\Enum\{ColorMode, ImageFormat, Shape, Transform};
 use KonradMichalik\Typo3LetterAvatar\Event\BackendUserAvatarConfigurationEvent;
 use KonradMichalik\Typo3LetterAvatar\Image\Avatar;
 use KonradMichalik\Typo3LetterAvatar\Utility\ConfigurationUtility;
-use TYPO3\CMS\Backend\Backend\Avatar\AvatarProviderInterface;
-use TYPO3\CMS\Backend\Backend\Avatar\Image;
+use TYPO3\CMS\Backend\Backend\Avatar\{AvatarProviderInterface, Image};
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -39,7 +26,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * LetterAvatarProvider.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
- * @license GPL-2.0
+ * @license GPL-2.0-or-later
  */
 class LetterAvatarProvider implements AvatarProviderInterface
 {
@@ -48,14 +35,14 @@ class LetterAvatarProvider implements AvatarProviderInterface
     public function getImage(array $backendUser, $size): ?Image
     {
         $mode = ConfigurationUtility::get('colorMode', ColorMode::class);
-        if ($mode === null) {
-            throw new \InvalidArgumentException('Invalid color mode', 1204028706);
+        if (null === $mode) {
+            throw new InvalidArgumentException('Invalid color mode', 1204028706);
         }
 
         $configuration = [
             'name' => $this->getName($backendUser),
             'mode' => $mode,
-            'theme' => ($mode === ColorMode::THEME) ? ConfigurationUtility::get('theme') : '',
+            'theme' => (ColorMode::THEME === $mode) ? ConfigurationUtility::get('theme') : '',
             'size' => ConfigurationUtility::get('size'),
             'fontSize' => ConfigurationUtility::get('fontSize'),
             'fontPath' => ConfigurationUtility::get('fontPath'),
@@ -78,6 +65,7 @@ class LetterAvatarProvider implements AvatarProviderInterface
             ConfigurationUtility::get('size'),
         );
     }
+
     private function getName(array $backendUser): string
     {
         if (ConfigurationUtility::get('prioritizeRealName')) {

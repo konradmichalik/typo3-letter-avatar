@@ -6,5 +6,6 @@
 	],
 	"ignorePaths": [
 		"package-lock.json"
-	]
+	],
+	"enabled": false
 }

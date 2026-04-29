@@ -3,32 +3,18 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the TYPO3 CMS extension "typo3_letter_avatar".
+ * This file is part of the "typo3_letter_avatar" TYPO3 CMS extension.
  *
- * Copyright (C) 2025 Konrad Michalik <hej@konradmichalik.dev>
+ * (c) Konrad Michalik <hej@konradmichalik.dev>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Enum;
 
-use KonradMichalik\Typo3LetterAvatar\Enum\ColorMode;
-use KonradMichalik\Typo3LetterAvatar\Enum\EnumInterface;
-use KonradMichalik\Typo3LetterAvatar\Enum\ImageDriver;
-use KonradMichalik\Typo3LetterAvatar\Enum\ImageFormat;
-use KonradMichalik\Typo3LetterAvatar\Enum\Shape;
-use KonradMichalik\Typo3LetterAvatar\Enum\Transform;
+use BackedEnum;
+use KonradMichalik\Typo3LetterAvatar\Enum\{ColorMode, EnumInterface, ImageDriver, ImageFormat, Shape, Transform};
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  * EnumTest.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
- * @license GPL-2.0
+ * @license GPL-2.0-or-later
  */
 final class EnumTest extends TestCase
 {
@@ -54,7 +40,7 @@ final class EnumTest extends TestCase
     public function colorModeImplementsEnumInterface(): void
     {
         self::assertInstanceOf(EnumInterface::class, ColorMode::STRINGIFY);
-        self::assertInstanceOf(\BackedEnum::class, ColorMode::STRINGIFY);
+        self::assertInstanceOf(BackedEnum::class, ColorMode::STRINGIFY);
     }
 
     #[Test]
@@ -86,7 +72,7 @@ final class EnumTest extends TestCase
     public function imageDriverImplementsEnumInterface(): void
     {
         self::assertInstanceOf(EnumInterface::class, ImageDriver::IMAGICK);
-        self::assertInstanceOf(\BackedEnum::class, ImageDriver::IMAGICK);
+        self::assertInstanceOf(BackedEnum::class, ImageDriver::IMAGICK);
     }
 
     #[Test]
@@ -100,7 +86,7 @@ final class EnumTest extends TestCase
     public function imageFormatImplementsEnumInterface(): void
     {
         self::assertInstanceOf(EnumInterface::class, ImageFormat::PNG);
-        self::assertInstanceOf(\BackedEnum::class, ImageFormat::PNG);
+        self::assertInstanceOf(BackedEnum::class, ImageFormat::PNG);
     }
 
     #[Test]
@@ -114,7 +100,7 @@ final class EnumTest extends TestCase
     public function shapeImplementsEnumInterface(): void
     {
         self::assertInstanceOf(EnumInterface::class, Shape::CIRCLE);
-        self::assertInstanceOf(\BackedEnum::class, Shape::CIRCLE);
+        self::assertInstanceOf(BackedEnum::class, Shape::CIRCLE);
     }
 
     #[Test]
@@ -129,7 +115,7 @@ final class EnumTest extends TestCase
     public function transformImplementsEnumInterface(): void
     {
         self::assertInstanceOf(EnumInterface::class, Transform::NONE);
-        self::assertInstanceOf(\BackedEnum::class, Transform::NONE);
+        self::assertInstanceOf(BackedEnum::class, Transform::NONE);
     }
 
     #[Test]

@@ -2,8 +2,11 @@ name: CGL
 on:
   push:
     branches:
-      - '**'
+      - main
+      - 2.x-dev
+      - 1.x
+  pull_request: ~
 
 jobs:
   cgl:
-    uses: konradmichalik/reusable-github-actions/.github/workflows/cgl.yml@main
+    uses: konradmichalik/reusable-github-actions/.github/workflows/cgl-test.yml@main

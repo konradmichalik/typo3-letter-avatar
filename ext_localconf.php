@@ -3,35 +3,25 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the TYPO3 CMS extension "typo3_letter_avatar".
+ * This file is part of the "typo3_letter_avatar" TYPO3 CMS extension.
  *
- * Copyright (C) 2025 Konrad Michalik <hej@konradmichalik.dev>
+ * (c) Konrad Michalik <hej@konradmichalik.dev>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
-defined('TYPO3') || die();
+defined('TYPO3') || exit;
 
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['backend']['avatarProviders']['letterAvatar'] = [
-    'provider' => \KonradMichalik\Typo3LetterAvatar\AvatarProvider\LetterAvatarProvider::class,
+    'provider' => KonradMichalik\Typo3LetterAvatar\AvatarProvider\LetterAvatarProvider::class,
     'after' => ['defaultAvatarProvider'],
 ];
 
 /*
 * Default configuration
 */
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][\KonradMichalik\Typo3LetterAvatar\Configuration::EXT_KEY]['configuration'] = [
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][KonradMichalik\Typo3LetterAvatar\Configuration::EXT_KEY]['configuration'] = [
     // Image size, in pixel
     'size' => 50,
 
@@ -43,7 +33,7 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][\KonradMichalik\Typo3LetterAvatar\Configu
     // 'fontPath' => 'EXT:typo3_letter_avatar/Resources/Public/Fonts/OpenSans-Bold.ttf',
 
     // Convert initial letter in uppercase, lowercase or keep as is
-    'transform' => \KonradMichalik\Typo3LetterAvatar\Enum\Transform::NONE,
+    'transform' => KonradMichalik\Typo3LetterAvatar\Enum\Transform::NONE,
 
     // Prioritize real name (or username) of a backend user for initial letters
     'prioritizeRealName' => true,
@@ -52,10 +42,10 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][\KonradMichalik\Typo3LetterAvatar\Configu
     'imagePath' => '/typo3temp/assets/avatars/',
 
     // Image format for processed images, png or jpeg
-    'imageFormat' => \KonradMichalik\Typo3LetterAvatar\Enum\ImageFormat::PNG,
+    'imageFormat' => KonradMichalik\Typo3LetterAvatar\Enum\ImageFormat::PNG,
 
     // Shape
-    'shape' => \KonradMichalik\Typo3LetterAvatar\Enum\Shape::CIRCLE,
+    'shape' => KonradMichalik\Typo3LetterAvatar\Enum\Shape::CIRCLE,
 
     // Color mode
     // Attention: this entry will override the 'colorMode' configuration from the extension settings
