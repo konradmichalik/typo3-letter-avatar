@@ -20,6 +20,8 @@ use KonradMichalik\Typo3LetterAvatar\Service\Colorize;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+use function count;
+
 /**
  * ColorizeTest.
  *
@@ -180,5 +182,134 @@ final class ColorizeTest extends TestCase
 
         self::assertSame($fg1, $fg2);
         self::assertSame($bg1, $bg2);
+    }
+
+    #[Test]
+    public function resolveBackgroundColorWithStringifyHandlesUmlautName(): void
+    {
+        // Demo fixture: Maria Müller — must produce stable hex color
+        $this->avatarProvider->mode = ColorMode::STRINGIFY;
+        $this->avatarProvider->name = 'Maria Müller';
+        $this->avatarProvider->initials = '';
+        $this->avatarProvider->transform = \KonradMichalik\Typo3LetterAvatar\Enum\Transform::NONE;
+
+        $color = $this->colorizeService->resolveBackgroundColor();
+
+        self::assertMatchesRegularExpression('/^#[0-9A-F]{6}$/i', $color);
+    }
+
+    #[Test]
+    public function resolveBackgroundColorWithStringifyHandlesApostropheName(): void
+    {
+        // Demo fixture: Thomas O'Brien
+        $this->avatarProvider->mode = ColorMode::STRINGIFY;
+        $this->avatarProvider->name = "Thomas O'Brien";
+        $this->avatarProvider->initials = '';
+        $this->avatarProvider->transform = \KonradMichalik\Typo3LetterAvatar\Enum\Transform::NONE;
+
+        $color = $this->colorizeService->resolveBackgroundColor();
+
+        self::assertMatchesRegularExpression('/^#[0-9A-F]{6}$/i', $color);
+    }
+
+    #[Test]
+    public function resolveBackgroundColorWithStringifyHandlesUnicodeName(): void
+    {
+        // Demo fixture: Émilie Łukasiewicz
+        $this->avatarProvider->mode = ColorMode::STRINGIFY;
+        $this->avatarProvider->name = 'Émilie Łukasiewicz';
+        $this->avatarProvider->initials = '';
+        $this->avatarProvider->transform = \KonradMichalik\Typo3LetterAvatar\Enum\Transform::NONE;
+
+        $color = $this->colorizeService->resolveBackgroundColor();
+
+        self::assertMatchesRegularExpression('/^#[0-9A-F]{6}$/i', $color);
+    }
+
+    #[Test]
+    public function resolveBackgroundColorWithStringifyHandlesLongCompositeName(): void
+    {
+        // Demo fixture: Maximilian Hubertus von Habsburg-Lothringen
+        $this->avatarProvider->mode = ColorMode::STRINGIFY;
+        $this->avatarProvider->name = 'Maximilian Hubertus von Habsburg-Lothringen';
+        $this->avatarProvider->initials = '';
+        $this->avatarProvider->transform = \KonradMichalik\Typo3LetterAvatar\Enum\Transform::NONE;
+
+        $color = $this->colorizeService->resolveBackgroundColor();
+
+        self::assertMatchesRegularExpression('/^#[0-9A-F]{6}$/i', $color);
+    }
+
+    #[Test]
+    public function resolveBackgroundColorWithStringifyHandlesTwoCharFirstName(): void
+    {
+        // Demo fixture: Li Wei
+        $this->avatarProvider->mode = ColorMode::STRINGIFY;
+        $this->avatarProvider->name = 'Li Wei';
+        $this->avatarProvider->initials = '';
+        $this->avatarProvider->transform = \KonradMichalik\Typo3LetterAvatar\Enum\Transform::NONE;
+
+        $color = $this->colorizeService->resolveBackgroundColor();
+
+        self::assertMatchesRegularExpression('/^#[0-9A-F]{6}$/i', $color);
+    }
+
+    #[Test]
+    public function resolveBackgroundColorWithStringifyAllDemoFixturesProduceUniqueColors(): void
+    {
+        $this->avatarProvider->mode = ColorMode::STRINGIFY;
+        $this->avatarProvider->initials = '';
+        $this->avatarProvider->transform = \KonradMichalik\Typo3LetterAvatar\Enum\Transform::NONE;
+
+        $names = [
+            'Maria Müller',
+            "Thomas O'Brien",
+            'Li Wei',
+            'Maximilian Hubertus von Habsburg-Lothringen',
+            'Émilie Łukasiewicz',
+        ];
+
+        $colors = [];
+        foreach ($names as $name) {
+            $this->avatarProvider->name = $name;
+            // Reinstantiate so cached colors don't leak between names
+            $service = new Colorize($this->avatarProvider);
+            $colors[] = $service->resolveBackgroundColor();
+        }
+
+        // All produced hex colors should be unique (CRC32-based hash collision-free for these inputs)
+        self::assertCount(count($names), array_unique($colors));
+    }
+
+    #[Test]
+    public function resolveBackgroundColorWithStringifyDarkensColorByHalving(): void
+    {
+        // The implementation halves each RGB component (hexdec/2). Verify each channel is in [0, 127].
+        $this->avatarProvider->mode = ColorMode::STRINGIFY;
+        $this->avatarProvider->name = 'John Doe';
+        $this->avatarProvider->initials = '';
+        $this->avatarProvider->transform = \KonradMichalik\Typo3LetterAvatar\Enum\Transform::NONE;
+
+        $color = $this->colorizeService->resolveBackgroundColor();
+
+        self::assertSame('#', $color[0]);
+        $r = hexdec(substr($color, 1, 2));
+        $g = hexdec(substr($color, 3, 2));
+        $b = hexdec(substr($color, 5, 2));
+
+        self::assertLessThanOrEqual(127, $r);
+        self::assertLessThanOrEqual(127, $g);
+        self::assertLessThanOrEqual(127, $b);
+    }
+
+    #[Test]
+    public function resolveForegroundColorWithStringifyDelegatesToRandomColors(): void
+    {
+        // ColorMode::STRINGIFY uses random foreground colors (only background is hashed)
+        $this->avatarProvider->mode = ColorMode::STRINGIFY;
+
+        $result = $this->colorizeService->resolveForegroundColor();
+
+        self::assertContains($result, ['#FFFFFF', '#000000']);
     }
 }

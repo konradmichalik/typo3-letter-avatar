@@ -21,6 +21,9 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
+use function count;
+use function strlen;
+
 /**
  * AbstractImageProviderTest.
  *
@@ -126,6 +129,136 @@ class(name: 'Test User', size: 100, fontSize: 0.5, mode: ColorMode::CUSTOM, fore
         $hash2 = $method->invoke($this->imageProvider);
 
         self::assertNotSame($hash1, $hash2);
+    }
+
+    #[Test]
+    public function configToHashIsUniquePerEdgeCaseName(): void
+    {
+        // Each demo fixture name should hash to a distinct value
+        $names = [
+            'Maria Müller',
+            "Thomas O'Brien",
+            'Li Wei',
+            'Maximilian Hubertus von Habsburg-Lothringen',
+            'Émilie Łukasiewicz',
+        ];
+
+        $reflection = new ReflectionClass($this->imageProvider);
+        $method = $reflection->getMethod('configToHash');
+
+        $hashes = [];
+        foreach ($names as $name) {
+            $this->imageProvider->name = $name;
+            $hashes[] = $method->invoke($this->imageProvider);
+        }
+
+        self::assertCount(count($names), array_unique($hashes), 'Edge-case names must produce unique hashes');
+    }
+
+    #[Test]
+    public function configToHashHandlesUnicodeNamesAsValidString(): void
+    {
+        $reflection = new ReflectionClass($this->imageProvider);
+        $method = $reflection->getMethod('configToHash');
+
+        $this->imageProvider->name = 'Émilie Łukasiewicz';
+        $hash = $method->invoke($this->imageProvider);
+
+        // SHA-256 hex digest is exactly 64 chars
+        self::assertSame(64, strlen((string) $hash));
+        self::assertMatchesRegularExpression('/^[0-9a-f]{64}$/', $hash);
+    }
+
+    #[Test]
+    public function configToHashChangesWhenInitialsChange(): void
+    {
+        $reflection = new ReflectionClass($this->imageProvider);
+        $method = $reflection->getMethod('configToHash');
+
+        $this->imageProvider->initials = '';
+        $without = $method->invoke($this->imageProvider);
+
+        $this->imageProvider->initials = 'MM';
+        $withInitials = $method->invoke($this->imageProvider);
+
+        self::assertNotSame($without, $withInitials);
+    }
+
+    #[Test]
+    public function configToHashChangesWhenShapeChanges(): void
+    {
+        $reflection = new ReflectionClass($this->imageProvider);
+        $method = $reflection->getMethod('configToHash');
+
+        $this->imageProvider->shape = Shape::CIRCLE;
+        $circle = $method->invoke($this->imageProvider);
+
+        $this->imageProvider->shape = Shape::SQUARE;
+        $square = $method->invoke($this->imageProvider);
+
+        self::assertNotSame($circle, $square);
+    }
+
+    #[Test]
+    public function configToHashChangesWhenTransformChanges(): void
+    {
+        $reflection = new ReflectionClass($this->imageProvider);
+        $method = $reflection->getMethod('configToHash');
+
+        $this->imageProvider->transform = Transform::NONE;
+        $none = $method->invoke($this->imageProvider);
+
+        $this->imageProvider->transform = Transform::UPPERCASE;
+        $upper = $method->invoke($this->imageProvider);
+
+        self::assertNotSame($none, $upper);
+    }
+
+    #[Test]
+    public function configToHashIsIndependentOfImageFormat(): void
+    {
+        // The hash intentionally excludes imageFormat — the format is only in the file extension
+        $reflection = new ReflectionClass($this->imageProvider);
+        $method = $reflection->getMethod('configToHash');
+
+        $this->imageProvider->imageFormat = ImageFormat::PNG;
+        $png = $method->invoke($this->imageProvider);
+
+        $this->imageProvider->imageFormat = ImageFormat::JPEG;
+        $jpeg = $method->invoke($this->imageProvider);
+
+        self::assertSame($png, $jpeg);
+    }
+
+    #[Test]
+    public function constructorAppliesDefaultsForOptionalArguments(): void
+    {
+        $provider = new
+/**
+ * @author Konrad Michalik <hej@konradmichalik.dev>
+ * @license GPL-2.0-or-later
+ */
+class extends AbstractImageProvider {
+    public function generate(): mixed
+    {
+        return null;
+    }
+
+    public function save(?string $path = null, ImageFormat $format = ImageFormat::PNG, int $quality = 90): string
+    {
+        return '';
+    }
+};
+
+        self::assertSame('', $provider->name);
+        self::assertSame('', $provider->initials);
+        self::assertSame(100, $provider->size);
+        self::assertSame(0.5, $provider->fontSize);
+        self::assertSame(ColorMode::CUSTOM, $provider->mode);
+        self::assertSame('', $provider->theme);
+        self::assertSame(ImageFormat::PNG, $provider->imageFormat);
+        self::assertSame(Transform::NONE, $provider->transform);
+        self::assertSame(Shape::CIRCLE, $provider->shape);
     }
 
     #[Test]
