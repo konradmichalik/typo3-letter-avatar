@@ -13,7 +13,7 @@ services:
       tags:
         - name: backend.avatar_provider
           identifier: letterAvatar
-          after: [defaultAvatarProvider]
+          after: defaultAvatarProvider
 
     KonradMichalik\Typo3LetterAvatar\Command\ClearAvatarsCommand:
         tags:
