@@ -7,5 +7,11 @@
 	"ignorePaths": [
 		"package-lock.json"
 	],
-	"enabled": false
+	"enabled": false,
+	"packageRules": [
+		{
+			"matchPackageNames": ["php"],
+			"enabled": false
+		}
+	]
 }
