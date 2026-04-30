@@ -1,0 +1,23 @@
+{
+    "name": "test/sitepackage",
+    "description": "typo3-letter-avatar testing site package",
+    "license": "GPL-2.0-or-later",
+    "type": "typo3-cms-extension",
+    "authors": [
+        {
+            "name": "#ddev-generated",
+            "email": "x@y.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "sitepackage"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Test\\Sitepackage\\": "Classes/"
+        }
+    }
+}

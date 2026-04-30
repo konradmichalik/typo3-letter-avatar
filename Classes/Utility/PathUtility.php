@@ -3,41 +3,30 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the TYPO3 CMS extension "typo3_letter_avatar".
+ * This file is part of the "typo3_letter_avatar" TYPO3 CMS extension.
  *
- * Copyright (C) 2025-2026 Konrad Michalik <hej@konradmichalik.dev>
+ * (c) Konrad Michalik <hej@konradmichalik.dev>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace KonradMichalik\Typo3LetterAvatar\Utility;
 
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility as CorePathUtility;
+use TYPO3\CMS\Core\Utility\{GeneralUtility, PathUtility as CorePathUtility};
 
 /**
  * PathUtility.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
- * @license GPL-2.0
+ * @license GPL-2.0-or-later
  */
 class PathUtility
 {
     public static function getImageFolder(): string
     {
-        $folder = Environment::getPublicPath() . ConfigurationUtility::get('imagePath');
+        $folder = Environment::getPublicPath().ConfigurationUtility::get('imagePath');
 
         if (!str_ends_with($folder, '/')) {
             $folder .= '/';
@@ -46,11 +35,17 @@ class PathUtility
         if (!is_dir($folder)) {
             GeneralUtility::mkdir_deep($folder);
         }
+
         return $folder;
     }
 
     public static function getWebPath(string $filename): string
     {
-        return CorePathUtility::getAbsoluteWebPath(ConfigurationUtility::get('imagePath') . $filename);
+        $imagePath = (string) ConfigurationUtility::get('imagePath');
+        if (!str_ends_with($imagePath, '/')) {
+            $imagePath .= '/';
+        }
+
+        return CorePathUtility::getAbsoluteWebPath($imagePath.ltrim($filename, '/'));
     }
 }

@@ -3,22 +3,12 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the TYPO3 CMS extension "typo3_letter_avatar".
+ * This file is part of the "typo3_letter_avatar" TYPO3 CMS extension.
  *
- * Copyright (C) 2025-2026 Konrad Michalik <hej@konradmichalik.dev>
+ * (c) Konrad Michalik <hej@konradmichalik.dev>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Utility;
@@ -32,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  * StringUtilityTest.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
- * @license GPL-2.0
+ * @license GPL-2.0-or-later
  */
 final class StringUtilityTest extends TestCase
 {
@@ -155,5 +145,124 @@ final class StringUtilityTest extends TestCase
         $result = StringUtility::resolveInitials('John-Paul Smith', '', Transform::NONE);
 
         self::assertSame('JS', $result);
+    }
+
+    #[Test]
+    public function resolveInitialsHandlesUmlautSurname(): void
+    {
+        // Demo fixture: editor.maria — Maria Müller
+        $result = StringUtility::resolveInitials('Maria Müller', '', Transform::NONE);
+
+        self::assertSame('MM', $result);
+    }
+
+    #[Test]
+    public function resolveInitialsHandlesApostropheInName(): void
+    {
+        // Demo fixture: editor.thomas — Thomas O'Brien
+        $result = StringUtility::resolveInitials("Thomas O'Brien", '', Transform::NONE);
+
+        self::assertSame('TO', $result);
+    }
+
+    #[Test]
+    public function resolveInitialsHandlesTwoCharFirstName(): void
+    {
+        // Demo fixture: editor.li — Li Wei
+        $result = StringUtility::resolveInitials('Li Wei', '', Transform::NONE);
+
+        self::assertSame('LW', $result);
+    }
+
+    #[Test]
+    public function resolveInitialsTruncatesLongCompositeNamesToTwoLetters(): void
+    {
+        // Demo fixture: editor.long — Maximilian Hubertus von Habsburg-Lothringen
+        $result = StringUtility::resolveInitials(
+            'Maximilian Hubertus von Habsburg-Lothringen',
+            '',
+            Transform::NONE,
+        );
+
+        // Only first two name parts are used; result is fixed length 2
+        self::assertSame('MH', $result);
+        self::assertSame(2, mb_strlen($result));
+    }
+
+    #[Test]
+    public function resolveInitialsHandlesUnicodeAcrossScripts(): void
+    {
+        // Demo fixture: editor.unicode — Émilie Łukasiewicz
+        $result = StringUtility::resolveInitials('Émilie Łukasiewicz', '', Transform::NONE);
+
+        self::assertSame('ÉŁ', $result);
+    }
+
+    #[Test]
+    public function resolveInitialsHandlesUnicodeWithUppercaseTransform(): void
+    {
+        // Pre-uppercase Unicode characters should remain uppercase after transform
+        $result = StringUtility::resolveInitials('émilie łukasiewicz', '', Transform::UPPERCASE);
+
+        self::assertSame('ÉŁ', $result);
+    }
+
+    #[Test]
+    public function resolveInitialsHandlesUmlautWithLowercaseTransform(): void
+    {
+        $result = StringUtility::resolveInitials('Maria Müller', '', Transform::LOWERCASE);
+
+        self::assertSame('mm', $result);
+    }
+
+    #[Test]
+    public function resolveInitialsCommaInverseOrderProducesSurnameInitialFirst(): void
+    {
+        // "Müller, Maria" → comma is split-token, so first part is "Müller"
+        $result = StringUtility::resolveInitials('Müller, Maria', '', Transform::NONE);
+
+        self::assertSame('MM', $result);
+    }
+
+    #[Test]
+    public function resolveInitialsHandlesSingleUnicodeCharName(): void
+    {
+        $result = StringUtility::resolveInitials('Ł', '', Transform::NONE);
+
+        self::assertSame('Ł', $result);
+    }
+
+    #[Test]
+    public function resolveInitialsHandlesTabsAsWhitespace(): void
+    {
+        $result = StringUtility::resolveInitials("John\tDoe", '', Transform::NONE);
+
+        self::assertSame('JD', $result);
+    }
+
+    #[Test]
+    public function resolveInitialsHandlesNewlinesAsWhitespace(): void
+    {
+        $result = StringUtility::resolveInitials("John\nDoe", '', Transform::NONE);
+
+        self::assertSame('JD', $result);
+    }
+
+    #[Test]
+    public function resolveInitialsWithLongPreSetInitialsReturnsFullPreSetValue(): void
+    {
+        // Pre-set initials are passed through verbatim, no truncation
+        $result = StringUtility::resolveInitials('John Doe', 'XYZ', Transform::NONE);
+
+        self::assertSame('XYZ', $result);
+    }
+
+    #[Test]
+    public function resolveInitialsWithEmptyPreSetFallsBackToName(): void
+    {
+        // Explicit empty pre-set must not short-circuit; name should be used
+        $result = StringUtility::resolveInitials('Maria Müller', '', Transform::NONE);
+
+        self::assertSame('MM', $result);
     }
 }

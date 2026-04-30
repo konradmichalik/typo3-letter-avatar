@@ -2,8 +2,15 @@ name: Tests
 on:
   push:
     branches:
-      - '**'
+      - main
+      - 2.x-dev
+      - 1.x
+  pull_request: ~
 
 jobs:
   tests:
     uses: konradmichalik/reusable-github-actions/.github/workflows/tests.yml@main
+    with:
+      php-versions: '["8.2", "8.3", "8.4", "8.5"]'
+      typo3-versions: '["13.4", "14.3"]'
+      dependencies: '["highest", "lowest"]'

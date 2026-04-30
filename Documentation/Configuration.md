@@ -1,5 +1,7 @@
 # Configuration
 
+> **Note:** Examples below apply to TYPO3 v13.4 LTS and v14.x. For v11/v12 compatibility, use the 1.x line of this extension.
+
 ## Extension Configuration
 
 Configure the extension via `Admin Tools > Settings > Extension Configuration > typo3_letter_avatar`:
@@ -16,6 +18,8 @@ Select color theme when using "Theme" mode. Available themes defined in `ext_loc
 
 ### Font
 Choose from various included font types for avatar generation.
+
+> **Character coverage:** Not every bundled font supports the full set of Latin diacritics. Display fonts (`Norwester`, `Chewy`) ship with a Basic Latin glyph set only — names containing characters such as `É`, `Ł`, `Ä`, `Ø`, `Č`, etc. will render with empty letters. For backends with international users, prefer `OpenSans-Bold.ttf` or `NotoSans-Bold.ttf`, which cover most European Latin diacritics.
 
 ## Custom Configuration
 

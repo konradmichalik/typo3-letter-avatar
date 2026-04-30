@@ -1,6 +1,6 @@
 <div align="center">
 
-![Extension icon](Resources/Public/Icons/Extension.svg)
+![Extension icon](Resources/Public/Icons/Extension.png)
 
 # TYPO3 extension `typo3_letter_avatar`
 
@@ -18,6 +18,9 @@ This TYPO3 extension generates colorful backend user avatars using name initials
 
 ![user-list.jpg](Documentation/Images/user-list.jpg)
 
+> [!NOTE]
+> TYPO3's default backend shows the same silhouette for every user without an uploaded avatar — making large user lists hard to scan. This extension generates a colored letter avatar per user automatically: no uploads, no external services, deterministic colors per name.
+
 ## ✨ Features
 
 * Generates out-of-the-box colorful avatars for backend users
@@ -30,8 +33,15 @@ This TYPO3 extension generates colorful backend user avatars using name initials
 
 ### Requirements
 
-* TYPO3 >= 11.5 
-* PHP 8.1+
+* TYPO3 13.4 LTS or 14.x
+* PHP 8.2, 8.3, 8.4, or 8.5
+
+### Compatibility
+
+| Version | TYPO3                        | PHP                | Status                      |
+|---------|------------------------------|--------------------|-----------------------------|
+| 2.x     | 13.4 LTS, 14.x               | 8.2, 8.3, 8.4, 8.5 | active                      |
+| 1.x     | 11.5 LTS, 12.4 LTS, 13.4 LTS | 8.1, 8.2, 8.3, 8.4 | maintenance (security only) |
 
 ### Composer
 
@@ -39,7 +49,7 @@ This TYPO3 extension generates colorful backend user avatars using name initials
 [![Packagist Downloads](https://img.shields.io/packagist/dt/konradmichalik/typo3-letter-avatar?color=brightgreen)](https://packagist.org/packages/konradmichalik/typo3-letter-avatar)
 
 ``` bash
-composer require konradmichalik/typo3-letter-avatar
+composer require konradmichalik/typo3-letter-avatar:^2.0
 ```
 
 ### TER

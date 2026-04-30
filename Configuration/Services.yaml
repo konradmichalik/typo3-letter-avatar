@@ -10,6 +10,10 @@ services:
 
     KonradMichalik\Typo3LetterAvatar\AvatarProvider\LetterAvatarProvider:
       public: true
+      tags:
+        - name: backend.avatar_provider
+          identifier: letterAvatar
+          after: defaultAvatarProvider
 
     KonradMichalik\Typo3LetterAvatar\Command\ClearAvatarsCommand:
         tags:

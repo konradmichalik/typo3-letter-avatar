@@ -1,16 +1,11 @@
 <?php
-
-//ddev-generated
-// If you want to take over this file and customize it, remove the line above
-// and ddev will respect it and won't overwrite the file.
-
 $extensionKey = getenv('EXTENSION_NAME');
-$typo3AdminUser = getenv('TYPO3_INSTALL_ADMIN_USER');
-$typo3AdminPassword = getenv('TYPO3_INSTALL_ADMIN_PASSWORD');
+$typo3AdminUser = getenv('TYPO3_SETUP_ADMIN_USERNAME');
+$typo3AdminPassword = getenv('TYPO3_SETUP_ADMIN_PASSWORD');
 $supportedVersions = explode(' ', getenv('TYPO3_VERSIONS'));
 
 // Check if composer.json exists
-$composerJsonPath = __DIR__ . '/../composer.json';
+$composerJsonPath = __DIR__.'/../composer.json';
 if (file_exists($composerJsonPath)) {
     $composerJsonContent = file_get_contents($composerJsonPath);
     $composerData = json_decode($composerJsonContent, true);
@@ -47,7 +42,7 @@ if (file_exists($composerJsonPath)) {
     <p>Run <code>ddev install all</code> to install all TYPO3 instances below:</p>
     <?php
     foreach ($supportedVersions as $version) {
-        $directoryPath = '/var/www/html/.Build/' . $version;
+        $directoryPath = '/var/www/html/.Build/'.$version;
         if (is_dir($directoryPath)) {
             echo "<article class='flex'><kbd>{$version}</kbd><div><strong>Frontend</strong><br/><strong>Backend</strong></div><div><a target='_blank' href='https://{$version}.{$extensionKey}.ddev.site'>https://{$version}.{$extensionKey}.ddev.site</a><br/><a target='_blank' href='https://{$version}.{$extensionKey}.ddev.site/typo3/?u={$typo3AdminUser}&p={$typo3AdminPassword}'>https://{$version}.{$extensionKey}.ddev.site/typo3</a></div></article>";
         } else {
@@ -69,7 +64,7 @@ foreach ($directories as $directory) {
         $filePath = $fileInfo->getPathname();
         $fileName = $fileInfo->getFilename();
 
-        if ($fileName[0] === '.' || $fileInfo->isDir()) {
+        if ('.' === $fileName[0] || $fileInfo->isDir()) {
             continue;
         }
 

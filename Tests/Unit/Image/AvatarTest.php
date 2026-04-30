@@ -3,31 +3,19 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the TYPO3 CMS extension "typo3_letter_avatar".
+ * This file is part of the "typo3_letter_avatar" TYPO3 CMS extension.
  *
- * Copyright (C) 2025-2026 Konrad Michalik <hej@konradmichalik.dev>
+ * (c) Konrad Michalik <hej@konradmichalik.dev>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Image;
 
 use KonradMichalik\Typo3LetterAvatar\Enum\ImageDriver;
 use KonradMichalik\Typo3LetterAvatar\Image\Avatar;
-use KonradMichalik\Typo3LetterAvatar\Image\Driver\Gd;
-use KonradMichalik\Typo3LetterAvatar\Image\Driver\Gmagick;
-use KonradMichalik\Typo3LetterAvatar\Image\Driver\Imagick;
+use KonradMichalik\Typo3LetterAvatar\Image\Driver\{Gd, Gmagick, Imagick};
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -35,14 +23,12 @@ use PHPUnit\Framework\TestCase;
  * AvatarTest.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
- * @license GPL-2.0
+ * @license GPL-2.0-or-later
  */
 final class AvatarTest extends TestCase
 {
     protected function setUp(): void
     {
-        parent::setUp();
-
         // Mock TYPO3_CONF_VARS for image driver configuration
         $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] = 'ImageMagick';
     }
@@ -105,7 +91,7 @@ final class AvatarTest extends TestCase
         $avatar = Avatar::create(
             name: 'Test User',
             size: 100,
-            fontSize: 0.6
+            fontSize: 0.6,
         );
 
         self::assertSame('Test User', $avatar->name);
@@ -119,7 +105,7 @@ final class AvatarTest extends TestCase
         // When imageDriver is explicitly passed, it should be used and not passed to the constructor
         $avatar = Avatar::create(
             name: 'Test User',
-            imageDriver: ImageDriver::GD
+            imageDriver: ImageDriver::GD,
         );
 
         self::assertInstanceOf(Gd::class, $avatar);
