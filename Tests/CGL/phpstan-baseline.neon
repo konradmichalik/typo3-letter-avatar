@@ -235,14 +235,14 @@ parameters:
 			path: ../../Classes/Utility/ConfigurationUtility.php
 
 		-
-			message: '#^Binary operation "\." between array\|bool\|float\|int\|KonradMichalik\\Typo3LetterAvatar\\Enum\\EnumInterface\|string\|null and string results in an error\.$#'
+			message: '#^Binary operation "\." between string and array\|bool\|float\|int\|KonradMichalik\\Typo3LetterAvatar\\Enum\\EnumInterface\|string\|null results in an error\.$#'
 			identifier: binaryOp.invalid
 			count: 1
 			path: ../../Classes/Utility/PathUtility.php
 
 		-
-			message: '#^Binary operation "\." between string and array\|bool\|float\|int\|KonradMichalik\\Typo3LetterAvatar\\Enum\\EnumInterface\|string\|null results in an error\.$#'
-			identifier: binaryOp.invalid
+			message: '#^Cannot cast array\|bool\|float\|int\|KonradMichalik\\Typo3LetterAvatar\\Enum\\EnumInterface\|string\|null to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../../Classes/Utility/PathUtility.php
 

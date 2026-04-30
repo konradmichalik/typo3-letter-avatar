@@ -41,6 +41,11 @@ class PathUtility
 
     public static function getWebPath(string $filename): string
     {
-        return CorePathUtility::getAbsoluteWebPath(ConfigurationUtility::get('imagePath').$filename);
+        $imagePath = (string) ConfigurationUtility::get('imagePath');
+        if (!str_ends_with($imagePath, '/')) {
+            $imagePath .= '/';
+        }
+
+        return CorePathUtility::getAbsoluteWebPath($imagePath.ltrim($filename, '/'));
     }
 }
