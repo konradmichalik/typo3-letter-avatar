@@ -16,6 +16,8 @@ namespace KonradMichalik\Typo3LetterAvatar\Image;
 use KonradMichalik\Typo3LetterAvatar\Enum\ImageDriver;
 use KonradMichalik\Typo3LetterAvatar\Image\Driver\{Gd, Gmagick, Imagick};
 
+use function is_string;
+
 /**
  * Avatar.
  *
@@ -26,13 +28,17 @@ class Avatar
 {
     public static function create(...$args): LetterAvatarInterface
     {
-        $imageDriver = $args['imageDriver'] ?? $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'];
+        $imageDriver = $args['imageDriver'] ?? $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] ?? null;
         unset($args['imageDriver']);
 
-        return match ($imageDriver) {
-            ImageDriver::GD => new Gd(...$args),
-            ImageDriver::GMAGICK => new Gmagick(...$args),
-            default => new Imagick(...$args),
+        $driver = $imageDriver instanceof ImageDriver
+            ? $imageDriver
+            : (is_string($imageDriver) ? ImageDriver::tryFrom($imageDriver) : null);
+
+        return match ($driver) {
+            ImageDriver::GMAGICK => class_exists(\Gmagick::class) ? new Gmagick(...$args) : new Gd(...$args),
+            ImageDriver::IMAGICK => class_exists(\Imagick::class) ? new Imagick(...$args) : new Gd(...$args),
+            default => new Gd(...$args),
         };
     }
 }
