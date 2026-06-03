@@ -10,6 +10,7 @@ Configure the extension via `Admin Tools > Settings > Extension Configuration > 
 - **STRINGIFY**: Random color based on name
 - **RANDOM**: Randomly selected colors from predefined list
 - **THEME**: Predefined color theme
+- **BACKEND_THEME** *(v14+)*: All rendered avatars follow the currently logged-in backend user's theme preference (`modern` / `fresh` / `classic`). Only effective inside the TYPO3 backend; falls back to the global `theme` setting outside of it.
 - **PAIRS**: Randomly selected color pairs
 - **CUSTOM**: Custom colors (code configuration only)
 
@@ -47,6 +48,21 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['typo3_letter_avatar']['configuration']['
 // Set custom theme (overrides extension setting)
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['typo3_letter_avatar']['configuration']['theme'] = 'customTheme';
 ```
+
+## Backend Theme Color Mode
+
+> [!NOTE]  
+> New in version 2.1. Requires TYPO3 v14 or later.
+
+![Avatar colors switching with the backend user's theme selection](Images/backend-theme.gif)
+
+With color mode **BACKEND_THEME**, all avatars in the backend follow the theme you picked under *Admin Tools → User Settings → Backend appearance*. Switch between `modern`, `fresh` and `classic` and every rendered avatar updates accordingly — keeping the UI visually consistent.
+
+| Theme   | Avatar background |
+|---------|-------------------|
+| `modern` (default) | TYPO3 blue (`#205eb5`) |
+| `fresh`            | Purple (`#5033c7`)     |
+| `classic`          | Orange (`#ff8700`)     |
 
 ## Available Options
 
