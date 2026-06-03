@@ -33,7 +33,7 @@ abstract class AbstractImageProvider
         public string $initials = '',
         public int $size = 100,
         public float|int $fontSize = 0.5,
-        public string $fontPath = 'EXT:'.Configuration::EXT_KEY.'/Resources/Public/Fonts/arial-bold.ttf',
+        public string $fontPath = 'EXT:'.Configuration::EXT_KEY.'/Resources/Public/Fonts/OpenSans-Bold.ttf',
         public string $foregroundColor = '',
         public string $backgroundColor = '',
         public ColorMode $mode = ColorMode::CUSTOM,
