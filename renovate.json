@@ -7,10 +7,6 @@
 	"ignorePaths": [
 		"package-lock.json"
 	],
-	"composerIgnorePlatformReqs": ["ext-*", "lib-*"],
-	"constraints": {
-		"php": "~8.2.0"
-	},
 	"packageRules": [
 		{
 			"matchPackageNames": ["php"],
