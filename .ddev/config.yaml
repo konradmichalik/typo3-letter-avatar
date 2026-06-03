@@ -10,8 +10,11 @@ additional_fqdns: []
 database:
   type: mariadb
   version: "10.6"
-webimage_extra_packages: [libxml2-utils]
-#webimage_extra_packages: ["php${DDEV_PHP_VERSION}-gmagick", libxml2-utils]
+# php-gmagick and php-imagick conflict at the Debian package level
+# (php-gmagick declares Conflicts: php-imagick) — only one can be installed locally.
+# gmagick is picked so issue #57 can be reproduced locally; imagick rendering is
+# exercised in CI instead.
+webimage_extra_packages: [libxml2-utils, "php${DDEV_PHP_VERSION}-gmagick"]
 use_dns_when_possible: true
 corepack_enable: false
 hooks:

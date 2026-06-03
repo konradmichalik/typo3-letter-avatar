@@ -100,7 +100,7 @@ class Gmagick extends AbstractImageProvider implements LetterAvatarInterface
 
         $metrics = $canvas->queryfontmetrics($draw, $text);
         $textX = ($this->size - $metrics['textWidth']) / 2;
-        $textY = ($this->size + $metrics['textHeight']) / 2;
+        $textY = ($this->size + $metrics['ascender'] + $metrics['descender']) / 2;
 
         $draw->annotate($textX, $textY, $text);
         $canvas->drawimage($draw);

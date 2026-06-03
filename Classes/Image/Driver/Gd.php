@@ -91,7 +91,7 @@ class Gd extends AbstractImageProvider implements LetterAvatarInterface
         $fontSize = $this->size * $this->fontSize;
         $textBox = imagettfbbox($fontSize, 0, $fontPath, $text);
         $x = ($this->size - ($textBox[2] - $textBox[0])) / 2;
-        $y = ($this->size - ($textBox[5] - $textBox[1])) / 2 + $fontSize / 2;
+        $y = ($this->size - $textBox[5] - $textBox[1]) / 2;
         imagettftext($canvas, $fontSize, 0, (int) $x, (int) $y, $color, $fontPath, $text);
     }
 }
