@@ -17,10 +17,15 @@ use InvalidArgumentException;
 use KonradMichalik\Typo3LetterAvatar\Enum\{ColorMode, ImageFormat, Shape, Transform};
 use KonradMichalik\Typo3LetterAvatar\Event\BackendUserAvatarConfigurationEvent;
 use KonradMichalik\Typo3LetterAvatar\Image\Avatar;
+use KonradMichalik\Typo3LetterAvatar\Service\BackendThemeResolver;
 use KonradMichalik\Typo3LetterAvatar\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Backend\Avatar\{AvatarProviderInterface, Image};
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use function is_array;
+use function is_string;
 
 /**
  * LetterAvatarProvider.
@@ -35,14 +40,14 @@ class LetterAvatarProvider implements AvatarProviderInterface
     public function getImage(array $backendUser, $size): ?Image
     {
         $mode = ConfigurationUtility::get('colorMode', ColorMode::class);
-        if (null === $mode) {
+        if (!$mode instanceof ColorMode) {
             throw new InvalidArgumentException('Invalid color mode', 1204028706);
         }
 
         $configuration = [
             'name' => $this->getName($backendUser),
             'mode' => $mode,
-            'theme' => (ColorMode::THEME === $mode) ? ConfigurationUtility::get('theme') : '',
+            'theme' => $this->resolveTheme($mode),
             'size' => ConfigurationUtility::get('size'),
             'fontSize' => ConfigurationUtility::get('fontSize'),
             'fontPath' => ConfigurationUtility::get('fontPath'),
@@ -77,5 +82,34 @@ class LetterAvatarProvider implements AvatarProviderInterface
         }
 
         return $username;
+    }
+
+    private function resolveTheme(ColorMode $mode): string
+    {
+        return match ($mode) {
+            ColorMode::THEME => $this->resolveGlobalTheme(),
+            ColorMode::BACKEND_THEME => (new BackendThemeResolver())->resolveThemeName($this->viewerSettings()),
+            default => '',
+        };
+    }
+
+    private function resolveGlobalTheme(): string
+    {
+        $theme = ConfigurationUtility::get('theme');
+
+        return is_string($theme) ? $theme : '';
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function viewerSettings(): array
+    {
+        $beUser = $GLOBALS['BE_USER'] ?? null;
+        if (!$beUser instanceof BackendUserAuthentication) {
+            return [];
+        }
+
+        return is_array($beUser->user) ? $beUser->user : [];
     }
 }

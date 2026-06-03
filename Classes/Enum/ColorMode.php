@@ -25,5 +25,6 @@ enum ColorMode: string implements EnumInterface
     case STRINGIFY = 'stringify';
     case RANDOM = 'random';
     case THEME = 'theme';
+    case BACKEND_THEME = 'backend_theme';
     case PAIRS = 'pairs';
 }
