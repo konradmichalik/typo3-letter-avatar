@@ -20,14 +20,12 @@ use KonradMichalik\Typo3LetterAvatar\Image\Driver\Gd;
 
 use function extension_loaded;
 
-
 /**
  * GdRenderingTest.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
-
 final class GdRenderingTest extends AbstractRenderingTestCase
 {
     protected function setUp(): void

@@ -17,14 +17,12 @@ use KonradMichalik\Typo3LetterAvatar\Enum\Shape;
 use KonradMichalik\Typo3LetterAvatar\Image\AbstractImageProvider;
 use KonradMichalik\Typo3LetterAvatar\Image\Driver\Gmagick;
 
-
 /**
  * GmagickRenderingTest.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
-
 final class GmagickRenderingTest extends AbstractRenderingTestCase
 {
     protected function setUp(): void
