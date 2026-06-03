@@ -1,4 +1,4 @@
-# cat=general/enable/10; type=options[Stringify=stringify,Random=random,Theme=theme,Pairs=pairs]; label=Color mode: Select the color mode for the avatar generation. See the documentation for more information.
+# cat=general/enable/10; type=options[Stringify=stringify,Random=random,Theme=theme,Backend Theme (v14+)=backend_theme,Pairs=pairs]; label=Color mode: Select the color mode for the avatar generation. "Backend Theme" (TYPO3 v14+ only) follows the logged-in backend user's theme preference and only applies inside the backend. See the documentation for more information.
 colorMode = stringify
 # cat=general/enable/20; type=options[Grayscale (light)=grayscale-light,Grayscale (dark)=grayscale-dark,Colorful=colorful,Pastel=pastel,TYPO3=typo3]; label=Theme: Only for color mode "Theme". Select the color theme (collection of foreground and background colors) for the avatar generation.
 theme = colorful

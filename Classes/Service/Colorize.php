@@ -38,7 +38,7 @@ class Colorize
         return match ($this->avatar->mode) {
             ColorMode::CUSTOM => $this->avatar->foregroundColor,
             ColorMode::STRINGIFY, ColorMode::RANDOM => $this->getRandomForegroundColor(),
-            ColorMode::THEME => $this->getRandomThemeFrontendColor(),
+            ColorMode::THEME, ColorMode::BACKEND_THEME => $this->getRandomThemeFrontendColor(),
             ColorMode::PAIRS => $this->getPairFrontendColor(),
         };
     }
@@ -51,7 +51,7 @@ class Colorize
                 StringUtility::resolveInitials($this->avatar->name, $this->avatar->initials, $this->avatar->transform),
             ),
             ColorMode::RANDOM => $this->getRandomBackgroundColor(),
-            ColorMode::THEME => $this->getRandomThemeBackendColor(),
+            ColorMode::THEME, ColorMode::BACKEND_THEME => $this->getRandomThemeBackendColor(),
             ColorMode::PAIRS => $this->getPairBackgroundColor(),
         };
     }
@@ -119,7 +119,11 @@ class Colorize
     private function initializeThemeColors(): void
     {
         if ([] === $this->foregroundColors || [] === $this->backgroundColors) {
-            $themes = (array) ConfigurationUtility::get('theme');
+            // Prefer the per-call theme (e.g. BACKEND_THEME resolved per user);
+            // fall back to the global extension setting.
+            $themes = '' !== $this->avatar->theme
+                ? [$this->avatar->theme]
+                : (array) ConfigurationUtility::get('theme');
             foreach ($themes as $theme) {
                 $themeConfig = $this->getThemeConfig($theme);
                 $this->foregroundColors = [...$this->foregroundColors, ...($themeConfig['foregrounds'] ?? [])];

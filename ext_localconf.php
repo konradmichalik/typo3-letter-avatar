@@ -203,5 +203,39 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][KonradMichalik\Typo3LetterAvatar\Configur
             'backgrounds' => ['#FF8700'],
             'foregrounds' => ['#000000'],
         ],
+        // Palettes mirroring the TYPO3 v14 backend "Theme" accents.
+        // Values extracted from cms-backend/Resources/Public/Css/backend.css.
+        'backend-modern' => [
+            'backgrounds' => ['#205eb5'], // --token-color-primary-base (default theme)
+            'foregrounds' => ['#FFFFFF'],
+        ],
+        'backend-fresh' => [
+            'backgrounds' => ['#5033c7'], // [data-theme=fresh] --token-color-primary-base
+            'foregrounds' => ['#FCFCFE'],
+        ],
+        'backend-classic' => [
+            'backgrounds' => ['#ff8700'], // [data-theme=classic] --typo3-icons-accent
+            'foregrounds' => ['#3D3D3D'],
+        ],
+    ],
+
+    // Color mode: "Backend Theme"
+    // Resolves a palette based on the currently logged-in backend user's theme settings,
+    // so all rendered avatars match the viewer's UI. Lookup priority:
+    //   1. "<colorScheme>:<theme>" (e.g. "dark:fresh") — explicit per-combination override
+    //   2. "<theme>"               (e.g. "fresh")     — primary axis
+    //   3. "<colorScheme>"         (e.g. "dark")     — fallback when theme is unknown
+    //   4. "default"
+    // Each value must reference a palette key from 'themes' above.
+    'backendThemes' => [
+        // Theme-specific palettes (primary axis).
+        'modern' => 'backend-modern',
+        'fresh' => 'backend-fresh',
+        'classic' => 'backend-classic',
+        // Color-scheme safety net (used only if TYPO3 ever adds an unknown theme value).
+        'light' => 'grayscale-light',
+        'dark' => 'grayscale-dark',
+        'auto' => 'grayscale-light',
+        'default' => 'backend-modern',
     ],
 ];
