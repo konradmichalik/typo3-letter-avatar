@@ -38,6 +38,11 @@
 			"KonradMichalik\\Typo3LetterAvatar\\": "Classes/"
 		}
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"KonradMichalik\\Typo3LetterAvatar\\Tests\\": "Tests/"
+		}
+	},
 	"config": {
 		"allow-plugins": {
 			"eliashaeussler/version-bumper": true,
