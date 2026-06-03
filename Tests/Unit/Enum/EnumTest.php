@@ -32,6 +32,7 @@ final class EnumTest extends TestCase
         self::assertSame('stringify', ColorMode::STRINGIFY->value);
         self::assertSame('random', ColorMode::RANDOM->value);
         self::assertSame('theme', ColorMode::THEME->value);
+        self::assertSame('backend_theme', ColorMode::BACKEND_THEME->value);
         self::assertSame('pairs', ColorMode::PAIRS->value);
         self::assertSame('custom', ColorMode::CUSTOM->value);
     }
@@ -49,6 +50,7 @@ final class EnumTest extends TestCase
         self::assertSame(ColorMode::STRINGIFY, ColorMode::tryFrom('stringify'));
         self::assertSame(ColorMode::RANDOM, ColorMode::tryFrom('random'));
         self::assertSame(ColorMode::THEME, ColorMode::tryFrom('theme'));
+        self::assertSame(ColorMode::BACKEND_THEME, ColorMode::tryFrom('backend_theme'));
         self::assertSame(ColorMode::PAIRS, ColorMode::tryFrom('pairs'));
         self::assertSame(ColorMode::CUSTOM, ColorMode::tryFrom('custom'));
     }
@@ -122,10 +124,11 @@ final class EnumTest extends TestCase
     public function enumsHaveAllCasesMethod(): void
     {
         $colorModes = ColorMode::cases();
-        self::assertCount(5, $colorModes);
+        self::assertCount(6, $colorModes);
         self::assertContains(ColorMode::STRINGIFY, $colorModes);
         self::assertContains(ColorMode::RANDOM, $colorModes);
         self::assertContains(ColorMode::THEME, $colorModes);
+        self::assertContains(ColorMode::BACKEND_THEME, $colorModes);
         self::assertContains(ColorMode::PAIRS, $colorModes);
         self::assertContains(ColorMode::CUSTOM, $colorModes);
     }

@@ -312,4 +312,37 @@ final class ColorizeTest extends TestCase
 
         self::assertContains($result, ['#FFFFFF', '#000000']);
     }
+
+    #[Test]
+    public function resolveBackgroundColorWithThemeUsesPerAvatarThemeWhenSet(): void
+    {
+        $this->avatarProvider->mode = ColorMode::THEME;
+        $this->avatarProvider->theme = 'test-theme';
+
+        $result = $this->colorizeService->resolveBackgroundColor();
+
+        self::assertSame('#333333', $result);
+    }
+
+    #[Test]
+    public function resolveBackgroundColorWithBackendThemeUsesPerAvatarTheme(): void
+    {
+        $this->avatarProvider->mode = ColorMode::BACKEND_THEME;
+        $this->avatarProvider->theme = 'test-theme';
+
+        $result = $this->colorizeService->resolveBackgroundColor();
+
+        self::assertSame('#333333', $result);
+    }
+
+    #[Test]
+    public function resolveForegroundColorWithBackendThemeUsesPerAvatarTheme(): void
+    {
+        $this->avatarProvider->mode = ColorMode::BACKEND_THEME;
+        $this->avatarProvider->theme = 'test-theme';
+
+        $result = $this->colorizeService->resolveForegroundColor();
+
+        self::assertSame('#CCCCCC', $result);
+    }
 }
