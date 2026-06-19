@@ -13,12 +13,11 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Service;
 
+use KonradMichalik\Color\ColorHasher;
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Enum\ColorMode;
 use KonradMichalik\Typo3LetterAvatar\Image\AbstractImageProvider;
 use KonradMichalik\Typo3LetterAvatar\Utility\{ConfigurationUtility, StringUtility};
-
-use function sprintf;
 
 /**
  * Colorize.
@@ -47,9 +46,9 @@ class Colorize
     {
         return match ($this->avatar->mode) {
             ColorMode::CUSTOM => $this->avatar->backgroundColor,
-            ColorMode::STRINGIFY => $this->stringToColor(
+            ColorMode::STRINGIFY => ColorHasher::crc32()->hash(
                 StringUtility::resolveInitials($this->avatar->name, $this->avatar->initials, $this->avatar->transform),
-            ),
+            )->scaleRgb(0.5)->toHex(),
             ColorMode::RANDOM => $this->getRandomBackgroundColor(),
             ColorMode::THEME, ColorMode::BACKEND_THEME => $this->getRandomThemeBackendColor(),
             ColorMode::PAIRS => $this->getPairBackgroundColor(),
@@ -130,18 +129,6 @@ class Colorize
                 $this->backgroundColors = [...$this->backgroundColors, ...($themeConfig['backgrounds'] ?? [])];
             }
         }
-    }
-
-    private function stringToColor(string $string): string
-    {
-        $rgb = substr(hash('crc32b', $string), 0, 6);
-
-        return sprintf(
-            '#%02X%02X%02X',
-            hexdec(substr($rgb, 0, 2)) / 2,
-            hexdec(substr($rgb, 2, 2)) / 2,
-            hexdec(substr($rgb, 4, 2)) / 2,
-        );
     }
 
     private function getRandomConfig(): array
