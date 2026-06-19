@@ -282,9 +282,11 @@ final class ColorizeTest extends TestCase
     }
 
     #[Test]
-    public function resolveBackgroundColorWithStringifyDarkensColorByHalving(): void
+    public function resolveBackgroundColorWithStringifyDarkensColorViaRgbHalving(): void
     {
-        // The implementation halves each RGB component (hexdec/2). Verify each channel is in [0, 127].
+        // STRINGIFY hashes the resolved initials with crc32 and halves each RGB
+        // channel (php-color scaleRgb(0.5)) for a darker background. Deterministic:
+        // initials 'JD' -> crc32 #fe30f9 -> halved #7f187d.
         $this->avatarProvider->mode = ColorMode::STRINGIFY;
         $this->avatarProvider->name = 'John Doe';
         $this->avatarProvider->initials = '';
@@ -292,14 +294,7 @@ final class ColorizeTest extends TestCase
 
         $color = $this->colorizeService->resolveBackgroundColor();
 
-        self::assertSame('#', $color[0]);
-        $r = hexdec(substr($color, 1, 2));
-        $g = hexdec(substr($color, 3, 2));
-        $b = hexdec(substr($color, 5, 2));
-
-        self::assertLessThanOrEqual(127, $r);
-        self::assertLessThanOrEqual(127, $g);
-        self::assertLessThanOrEqual(127, $b);
+        self::assertSame('#7f187d', $color);
     }
 
     #[Test]
