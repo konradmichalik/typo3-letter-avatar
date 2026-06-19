@@ -1,6 +1,6 @@
 {
 	"name": "konradmichalik/typo3-letter-avatar",
-	"description": "TYPO3 extension, which generates colorful backend user avatars using name initials letter.",
+	"description": "Letter Avatar - TYPO3 extension, which generates colorful backend user avatars using name initials letter.",
 	"license": [
 		"GPL-2.0-or-later"
 	],
