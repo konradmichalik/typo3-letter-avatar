@@ -5,7 +5,7 @@
 # TYPO3 extension `typo3_letter_avatar`
 
 [![Latest Stable Version](https://typo3-badges.dev/badge/typo3_letter_avatar/version/shields.svg)](https://extensions.typo3.org/extension/typo3_letter_avatar)
-[![Supported TYPO3 versions](https://typo3-badges.dev/badge/typo3_letter_avatar/typo3/shields.svg)](https://extensions.typo3.org/extension/typo3_letter_avatar)
+![TYPO3](https://img.shields.io/badge/TYPO3-13.4%20%7C%2014.0-orange.svg)
 [![Supported PHP Versions](https://img.shields.io/packagist/dependency-v/konradmichalik/typo3-letter-avatar/php?logo=php)](https://packagist.org/packages/konradmichalik/typo3-letter-avatar)
 ![Stability](https://typo3-badges.dev/badge/typo3_letter_avatar/stability/shields.svg)
 [![Coverage](https://img.shields.io/coverallsCoverage/github/konradmichalik/typo3-letter-avatar?logo=coveralls)](https://coveralls.io/github/konradmichalik/typo3-letter-avatar)
