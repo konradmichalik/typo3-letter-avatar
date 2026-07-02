@@ -11,7 +11,6 @@
 [![Coverage](https://img.shields.io/coverallsCoverage/github/konradmichalik/typo3-letter-avatar?logo=coveralls)](https://coveralls.io/github/konradmichalik/typo3-letter-avatar)
 [![CGL](https://img.shields.io/github/actions/workflow/status/konradmichalik/typo3-letter-avatar/cgl.yml?label=cgl&logo=github)](https://github.com/konradmichalik/typo3-letter-avatar/actions/workflows/cgl.yml)
 [![Tests](https://img.shields.io/github/actions/workflow/status/konradmichalik/typo3-letter-avatar/tests.yml?label=tests&logo=github)](https://github.com/konradmichalik/typo3-letter-avatar/actions/workflows/tests.yml)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/konradmichalik/typo3-letter-avatar/badge)](https://securityscorecards.dev/viewer/?uri=github.com/konradmichalik/typo3-letter-avatar)
 [![License](https://poser.pugx.org/konradmichalik/typo3-letter-avatar/license)](LICENSE.md)
 </div>
 
