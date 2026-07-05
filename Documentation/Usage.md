@@ -77,8 +77,8 @@ class ModifyLetterAvatarEventListener
         if ($backendUser['admin'] === 1) {
             $configuration = $event->getConfiguration();
             $configuration['mode'] = ColorMode::CUSTOM;
-            $configuration['foreground'] = '#000000';
-            $configuration['background'] = '#FFFFFF';
+            $configuration['foregroundColor'] = '#000000';
+            $configuration['backgroundColor'] = '#FFFFFF';
             
             $event->setConfiguration($configuration);
         }
