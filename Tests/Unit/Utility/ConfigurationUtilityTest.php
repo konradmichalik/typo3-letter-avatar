@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Utility;
 
 use KonradMichalik\Typo3LetterAvatar\Configuration;
+use KonradMichalik\Typo3LetterAvatar\Enum\ColorMode;
 use KonradMichalik\Typo3LetterAvatar\Utility\ConfigurationUtility;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -30,6 +31,7 @@ final class ConfigurationUtilityTest extends TestCase
     protected function setUp(): void
     {
         // Simple TYPO3_CONF_VARS configuration without framework mocking
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][Configuration::EXT_KEY] = [];
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
             'size' => 100,
             'fontSize' => 0.5,
@@ -44,7 +46,10 @@ final class ConfigurationUtilityTest extends TestCase
 
     protected function tearDown(): void
     {
-        unset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]);
+        unset(
+            $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][Configuration::EXT_KEY],
+            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY],
+        );
     }
 
     #[Test]
@@ -76,5 +81,44 @@ final class ConfigurationUtilityTest extends TestCase
         $getMethod = $reflectionClass->getMethod('get');
 
         self::assertTrue($getMethod->isStatic());
+    }
+
+    #[Test]
+    public function getReturnsConfiguredScalarValues(): void
+    {
+        self::assertSame(100, ConfigurationUtility::get('size'));
+        self::assertSame('test-string', ConfigurationUtility::get('stringValue'));
+        self::assertTrue(ConfigurationUtility::get('boolValue'));
+    }
+
+    #[Test]
+    public function getReturnsNullForUnknownKey(): void
+    {
+        self::assertNull(ConfigurationUtility::get('doesNotExist'));
+    }
+
+    #[Test]
+    public function getCastsValueToRequestedEnum(): void
+    {
+        self::assertSame(ColorMode::RANDOM, ConfigurationUtility::get('colorMode', ColorMode::class));
+    }
+
+    #[Test]
+    public function getReturnsNullForInvalidEnumValue(): void
+    {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration']['colorMode'] = 'not-a-mode';
+
+        self::assertNull(ConfigurationUtility::get('colorMode', ColorMode::class));
+    }
+
+    #[Test]
+    public function getReflectsConfigurationChangesImmediately(): void
+    {
+        self::assertSame(100, ConfigurationUtility::get('size'));
+
+        // The live configuration is read on every call, so changes are visible at once.
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration']['size'] = 200;
+
+        self::assertSame(200, ConfigurationUtility::get('size'));
     }
 }

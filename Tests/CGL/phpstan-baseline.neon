@@ -229,12 +229,6 @@ parameters:
 			path: ../../Classes/Utility/ConfigurationUtility.php
 
 		-
-			message: '#^Parameter \#1 \$objectOrClass of class ReflectionClass constructor expects class\-string\<T of object\>\|T of object, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../Classes/Utility/ConfigurationUtility.php
-
-		-
 			message: '#^Binary operation "\." between string and array\|bool\|float\|int\|KonradMichalik\\Typo3LetterAvatar\\Enum\\EnumInterface\|string\|null results in an error\.$#'
 			identifier: binaryOp.invalid
 			count: 1
