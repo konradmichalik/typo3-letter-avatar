@@ -64,6 +64,7 @@ final class AvatarViewHelperRenderTest extends TestCase
 
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask'] = '2775';
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['fileCreateMask'] = '0664';
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] = 'test-encryption-key';
 
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][Configuration::EXT_KEY] = [
             'colorMode' => 'stringify',
@@ -98,6 +99,7 @@ final class AvatarViewHelperRenderTest extends TestCase
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY],
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask'],
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['fileCreateMask'],
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'],
         );
 
         GeneralUtility::rmdir(Environment::getPublicPath().self::IMAGE_PATH, true);
