@@ -17,8 +17,8 @@ use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Enum\{ColorMode, ImageFormat, Shape, Transform};
 use KonradMichalik\Typo3LetterAvatar\Service\Colorize;
 use KonradMichalik\Typo3LetterAvatar\Utility\PathUtility;
-use TYPO3\CMS\Core\Crypto\{HashAlgo, HashService};
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use function hash_hmac;
 
 /**
  * AbstractImageProvider.
@@ -79,7 +79,8 @@ abstract class AbstractImageProvider
 
         // Keyed HMAC with the site's encryption key so avatar filenames cannot be
         // recomputed from public inputs (e.g. a user's name) to probe their existence.
-        return GeneralUtility::makeInstance(HashService::class)
-            ->hmac(implode('_', $parts), Configuration::EXT_KEY, HashAlgo::SHA256);
+        $secret = (string) ($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] ?? '');
+
+        return hash_hmac('sha256', implode('_', $parts), $secret);
     }
 }
