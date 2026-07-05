@@ -37,6 +37,7 @@ final class AbstractImageProviderTest extends TestCase
     protected function setUp(): void
     {
         // Mock configuration for testing
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] = 'test-encryption-key';
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
             'imagePath' => '/typo3temp/assets/avatars/',
         ];
@@ -62,7 +63,10 @@ class(name: 'Test User', size: 100, fontSize: 0.5, mode: ColorMode::CUSTOM, fore
 
     protected function tearDown(): void
     {
-        unset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]);
+        unset(
+            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY],
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'],
+        );
     }
 
     #[Test]
@@ -114,6 +118,23 @@ class(name: 'Test User', size: 100, fontSize: 0.5, mode: ColorMode::CUSTOM, fore
         self::assertSame($hash1, $hash2);
         self::assertIsString($hash1);
         self::assertNotEmpty($hash1);
+    }
+
+    #[Test]
+    public function configToHashDependsOnEncryptionKey(): void
+    {
+        $reflection = new ReflectionClass($this->imageProvider);
+        $method = $reflection->getMethod('configToHash');
+
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] = 'first-key';
+        $first = $method->invoke($this->imageProvider);
+
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] = 'second-key';
+        $second = $method->invoke($this->imageProvider);
+
+        // Identical inputs but a different site secret must not yield the same filename,
+        // otherwise avatar filenames remain computable from public data.
+        self::assertNotSame($first, $second);
     }
 
     #[Test]
