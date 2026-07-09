@@ -19,9 +19,9 @@ use KonradMichalik\Typo3LetterAvatar\Event\BackendUserAvatarConfigurationEvent;
 use KonradMichalik\Typo3LetterAvatar\Image\Avatar;
 use KonradMichalik\Typo3LetterAvatar\Service\BackendThemeResolver;
 use KonradMichalik\Typo3LetterAvatar\Utility\ConfigurationUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Backend\Backend\Avatar\{AvatarProviderInterface, Image};
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
-use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use function is_array;
@@ -35,9 +35,36 @@ use function is_string;
  */
 class LetterAvatarProvider implements AvatarProviderInterface
 {
-    public function __construct(protected readonly EventDispatcher $eventDispatcher) {}
+    public function __construct(protected readonly EventDispatcherInterface $eventDispatcher) {}
 
     public function getImage(array $backendUser, $size): ?Image
+    {
+        $configuration = $this->resolveConfiguration($backendUser);
+        $avatarService = Avatar::create(...$configuration);
+
+        if (!file_exists($avatarService->getImagePath())) {
+            $avatarService->save();
+        }
+
+        $imageSize = ConfigurationUtility::get('size');
+
+        return GeneralUtility::makeInstance(
+            Image::class,
+            $avatarService->getWebPath(),
+            $imageSize,
+            $imageSize,
+        );
+    }
+
+    /**
+     * Builds the avatar configuration for a backend user and lets listeners
+     * override it via the PSR-14 event before it is applied.
+     *
+     * @param array<string, mixed> $backendUser
+     *
+     * @return array<string, mixed>
+     */
+    protected function resolveConfiguration(array $backendUser): array
     {
         $mode = ConfigurationUtility::get('colorMode', ColorMode::class);
         if (!$mode instanceof ColorMode) {
@@ -56,19 +83,10 @@ class LetterAvatarProvider implements AvatarProviderInterface
             'shape' => ConfigurationUtility::get('shape', Shape::class),
         ];
 
-        $this->eventDispatcher->dispatch(new BackendUserAvatarConfigurationEvent($backendUser, $configuration));
-        $avatarService = Avatar::create(...$configuration);
+        $event = new BackendUserAvatarConfigurationEvent($backendUser, $configuration);
+        $this->eventDispatcher->dispatch($event);
 
-        if (!file_exists($avatarService->getImagePath())) {
-            $avatarService->save();
-        }
-
-        return GeneralUtility::makeInstance(
-            Image::class,
-            $avatarService->getWebPath(),
-            ConfigurationUtility::get('size'),
-            ConfigurationUtility::get('size'),
-        );
+        return $event->getConfiguration();
     }
 
     private function getName(array $backendUser): string
