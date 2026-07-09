@@ -39,13 +39,13 @@ class ConfigurationUtility
             return null;
         }
 
-        if (null !== $expectedEnumClass
-            && is_subclass_of($expectedEnumClass, EnumInterface::class)
-            && !($value instanceof $expectedEnumClass)
-            && (is_string($value) || is_int($value))
-        ) {
+        if (null !== $expectedEnumClass && is_subclass_of($expectedEnumClass, EnumInterface::class)) {
+            if ($value instanceof $expectedEnumClass) {
+                return $value;
+            }
+
             // EnumInterface extends BackedEnum, so tryFrom() is guaranteed here.
-            return $expectedEnumClass::tryFrom($value);
+            return (is_string($value) || is_int($value)) ? $expectedEnumClass::tryFrom($value) : null;
         }
 
         return $value;
