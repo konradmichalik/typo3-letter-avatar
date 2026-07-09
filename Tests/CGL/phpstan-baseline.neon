@@ -251,9 +251,3 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: ../../Classes/Utility/StringUtility.php
-
-		-
-			message: '#^Cognitive complexity for "KonradMichalik\\Typo3LetterAvatar\\ViewHelpers\\AvatarViewHelper\:\:render\(\)" is 11, keep it under 10$#'
-			identifier: complexity.functionLike
-			count: 1
-			path: ../../Classes/ViewHelpers/AvatarViewHelper.php
