@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Service;
 
+use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Enum\ColorMode;
 use KonradMichalik\Typo3LetterAvatar\Image\AbstractImageProvider;
@@ -28,6 +29,32 @@ use function count;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
+#[WithTypo3ConfVars(['EXTCONF' => [Configuration::EXT_KEY => ['configuration' => [
+    'random' => [
+        'foregrounds' => ['#FFFFFF', '#000000'],
+        'backgrounds' => ['#FF0000', '#00FF00', '#0000FF'],
+    ],
+    'pairs' => [
+        [
+            'foreground' => '#FFFFFF',
+            'background' => '#000000',
+        ],
+        [
+            'foreground' => '#000000',
+            'background' => '#FFFFFF',
+        ],
+    ],
+    'themes' => [
+        'test-theme' => [
+            'foregrounds' => ['#CCCCCC'],
+            'backgrounds' => ['#333333'],
+        ],
+        'multi-theme' => [
+            'foregrounds' => ['#AAA', '#BBB'],
+            'backgrounds' => ['#111', '#222'],
+        ],
+    ],
+]]]])]
 final class ColorizeTest extends TestCase
 {
     private AbstractImageProvider $avatarProvider;
@@ -35,41 +62,8 @@ final class ColorizeTest extends TestCase
 
     protected function setUp(): void
     {
-        // Set up mock configuration for testing
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
-            'random' => [
-                'foregrounds' => ['#FFFFFF', '#000000'],
-                'backgrounds' => ['#FF0000', '#00FF00', '#0000FF'],
-            ],
-            'pairs' => [
-                [
-                    'foreground' => '#FFFFFF',
-                    'background' => '#000000',
-                ],
-                [
-                    'foreground' => '#000000',
-                    'background' => '#FFFFFF',
-                ],
-            ],
-            'themes' => [
-                'test-theme' => [
-                    'foregrounds' => ['#CCCCCC'],
-                    'backgrounds' => ['#333333'],
-                ],
-                'multi-theme' => [
-                    'foregrounds' => ['#AAA', '#BBB'],
-                    'backgrounds' => ['#111', '#222'],
-                ],
-            ],
-        ];
-
         $this->avatarProvider = $this->createMock(AbstractImageProvider::class);
         $this->colorizeService = new Colorize($this->avatarProvider);
-    }
-
-    protected function tearDown(): void
-    {
-        unset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]);
     }
 
     #[Test]

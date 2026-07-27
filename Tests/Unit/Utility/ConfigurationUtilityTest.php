@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Utility;
 
+use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Utility\ConfigurationUtility;
 use PHPUnit\Framework\Attributes\Test;
@@ -25,28 +26,18 @@ use ReflectionClass;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
+#[WithTypo3ConfVars(['EXTCONF' => [Configuration::EXT_KEY => ['configuration' => [
+    'size' => 100,
+    'fontSize' => 0.5,
+    'colorMode' => 'random',
+    'imageFormat' => 'png',
+    'stringValue' => 'test-string',
+    'intValue' => 42,
+    'floatValue' => 3.14,
+    'boolValue' => true,
+]]]])]
 final class ConfigurationUtilityTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        // Simple TYPO3_CONF_VARS configuration without framework mocking
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
-            'size' => 100,
-            'fontSize' => 0.5,
-            'colorMode' => 'random',
-            'imageFormat' => 'png',
-            'stringValue' => 'test-string',
-            'intValue' => 42,
-            'floatValue' => 3.14,
-            'boolValue' => true,
-        ];
-    }
-
-    protected function tearDown(): void
-    {
-        unset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]);
-    }
-
     #[Test]
     public function getMethodExists(): void
     {

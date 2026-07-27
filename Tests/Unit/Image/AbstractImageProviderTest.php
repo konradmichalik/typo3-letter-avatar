@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Image;
 
+use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Enum\{ColorMode, ImageFormat, Shape, Transform};
 use KonradMichalik\Typo3LetterAvatar\Image\AbstractImageProvider;
@@ -30,17 +31,13 @@ use function strlen;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
+#[WithTypo3ConfVars(['EXTCONF' => [Configuration::EXT_KEY => ['configuration' => ['imagePath' => '/typo3temp/assets/avatars/']]]])]
 final class AbstractImageProviderTest extends TestCase
 {
     private AbstractImageProvider $imageProvider;
 
     protected function setUp(): void
     {
-        // Mock configuration for testing
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
-            'imagePath' => '/typo3temp/assets/avatars/',
-        ];
-
         // Create anonymous class that extends AbstractImageProvider
         $this->imageProvider = new
 /**
@@ -58,11 +55,6 @@ class(name: 'Test User', size: 100, fontSize: 0.5, mode: ColorMode::CUSTOM, fore
         return '/mock/path/image.png';
     }
 };
-    }
-
-    protected function tearDown(): void
-    {
-        unset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]);
     }
 
     #[Test]

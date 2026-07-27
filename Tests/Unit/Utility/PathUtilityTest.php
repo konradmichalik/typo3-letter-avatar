@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Utility;
 
+use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Utility\PathUtility;
 use PHPUnit\Framework\Attributes\Test;
@@ -28,24 +29,15 @@ use function defined;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
+#[WithTypo3ConfVars(['EXTCONF' => [Configuration::EXT_KEY => ['configuration' => ['imagePath' => '/typo3temp/assets/avatars/']]]])]
 final class PathUtilityTest extends TestCase
 {
     protected function setUp(): void
     {
-        // Mock TYPO3 configuration
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
-            'imagePath' => '/typo3temp/assets/avatars/',
-        ];
-
-        // Mock TYPO3 Environment
+        // Mock TYPO3 Environment (constants cannot be sandboxed via attributes)
         if (!defined('TYPO3_PATH_ROOT')) {
             define('TYPO3_PATH_ROOT', '/var/www/html');
         }
-    }
-
-    protected function tearDown(): void
-    {
-        unset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]);
     }
 
     #[Test]

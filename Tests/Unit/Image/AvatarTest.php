@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Image;
 
+use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
 use KonradMichalik\Typo3LetterAvatar\Enum\ImageDriver;
 use KonradMichalik\Typo3LetterAvatar\Image\Avatar;
 use KonradMichalik\Typo3LetterAvatar\Image\Driver\{Gd, Gmagick, Imagick};
@@ -25,14 +26,9 @@ use PHPUnit\Framework\TestCase;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
+#[WithTypo3ConfVars(['GFX' => ['processor' => 'ImageMagick']])]
 final class AvatarTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        // Mock TYPO3_CONF_VARS for image driver configuration
-        $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] = 'ImageMagick';
-    }
-
     #[Test]
     public function createReturnsImagickDriverByDefault(): void
     {

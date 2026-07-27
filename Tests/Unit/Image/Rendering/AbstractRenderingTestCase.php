@@ -25,6 +25,12 @@ use function sprintf;
 /**
  * AbstractRenderingTestCase.
  *
+ * The TYPO3 Environment must be initialized with the extension root as project
+ * path so the drivers' absolute font path (inside Resources/) passes
+ * GeneralUtility::getFileAbsFileName()'s isAllowedAbsPath() check. ttt's
+ * #[WithEnvironment] deliberately uses a temporary project directory, which
+ * would place the font outside the allowed path — hence this stays hand-rolled.
+ *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
