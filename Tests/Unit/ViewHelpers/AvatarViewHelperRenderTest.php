@@ -30,9 +30,6 @@ use function extension_loaded;
 /**
  * AvatarViewHelperRenderTest.
  *
- * Functional render() tests covering configuration fallbacks and
- * argument validation of the AvatarViewHelper.
- *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */

@@ -25,9 +25,6 @@ use ReflectionMethod;
 /**
  * LetterAvatarProviderConfigurationTest.
  *
- * Verifies that the provider resolves the avatar configuration from the
- * extension settings and honours modifications made by event listeners.
- *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */

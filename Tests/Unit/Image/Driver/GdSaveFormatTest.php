@@ -27,9 +27,6 @@ use function extension_loaded;
 /**
  * GdSaveFormatTest.
  *
- * Ensures save() writes the file using the configured image format instead of
- * always defaulting to PNG, so getImagePath() and the written file stay in sync.
- *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */

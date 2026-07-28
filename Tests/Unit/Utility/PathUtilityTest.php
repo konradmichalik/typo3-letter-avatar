@@ -22,6 +22,8 @@ use ReflectionClass;
 use TYPO3\CMS\Core\Core\{ApplicationContext, Environment};
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use function define;
+use function defined;
 use function dirname;
 
 /**
