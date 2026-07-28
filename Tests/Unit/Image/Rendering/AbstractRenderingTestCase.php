@@ -16,7 +16,6 @@ namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Image\Rendering;
 use KonradMichalik\Typo3LetterAvatar\Enum\Shape;
 use KonradMichalik\Typo3LetterAvatar\Image\AbstractImageProvider;
 use PHPUnit\Framework\TestCase;
-use TYPO3\CMS\Core\Core\{ApplicationContext, Environment};
 
 use function count;
 use function dirname;
@@ -24,12 +23,6 @@ use function sprintf;
 
 /**
  * AbstractRenderingTestCase.
- *
- * The TYPO3 Environment must be initialized with the extension root as project
- * path so the drivers' absolute font path (inside Resources/) passes
- * GeneralUtility::getFileAbsFileName()'s isAllowedAbsPath() check. ttt's
- * #[WithEnvironment] deliberately uses a temporary project directory, which
- * would place the font outside the allowed path — hence this stays hand-rolled.
  *
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
@@ -39,28 +32,6 @@ abstract class AbstractRenderingTestCase extends TestCase
     protected const SIZE = 100;
     protected const TOLERANCE = 0.15;
     protected const MIN_PIXELS = 50;
-
-    private static bool $environmentInitialized = false;
-
-    public static function setUpBeforeClass(): void
-    {
-        if (self::$environmentInitialized) {
-            return;
-        }
-        $extensionRoot = dirname(__DIR__, 4);
-        Environment::initialize(
-            new ApplicationContext('Testing'),
-            true,
-            false,
-            $extensionRoot,
-            $extensionRoot,
-            $extensionRoot.'/.Build/var',
-            $extensionRoot.'/.Build/var/config',
-            $extensionRoot.'/.Build/public/index.php',
-            'UNIX',
-        );
-        self::$environmentInitialized = true;
-    }
 
     /**
      * @return array<string, array{Shape}>
