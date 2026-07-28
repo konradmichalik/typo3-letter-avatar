@@ -27,16 +27,19 @@ use ReflectionClass;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
-#[WithTypo3ConfVars(['EXTCONF' => [Configuration::EXT_KEY => ['configuration' => [
-    'size' => 100,
-    'fontSize' => 0.5,
-    'colorMode' => 'random',
-    'imageFormat' => 'png',
-    'stringValue' => 'test-string',
-    'intValue' => 42,
-    'floatValue' => 3.14,
-    'boolValue' => true,
-]]]])]
+#[WithTypo3ConfVars([
+    'EXTENSIONS' => [Configuration::EXT_KEY => []],
+    'EXTCONF' => [Configuration::EXT_KEY => ['configuration' => [
+        'size' => 100,
+        'fontSize' => 0.5,
+        'colorMode' => 'random',
+        'imageFormat' => 'png',
+        'stringValue' => 'test-string',
+        'intValue' => 42,
+        'floatValue' => 3.14,
+        'boolValue' => true,
+    ]]],
+])]
 final class ConfigurationUtilityTest extends TestCase
 {
     #[Test]
