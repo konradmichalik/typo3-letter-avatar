@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Utility;
 
+use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Utility\PathUtility;
 use PHPUnit\Framework\Attributes\Test;
@@ -21,6 +22,8 @@ use ReflectionClass;
 use TYPO3\CMS\Core\Core\{ApplicationContext, Environment};
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use function define;
+use function defined;
 use function dirname;
 
 /**
@@ -29,6 +32,11 @@ use function dirname;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
+#[WithTypo3ConfVars([
+    'SYS' => ['folderCreateMask' => '2775'],
+    'EXTENSIONS' => [Configuration::EXT_KEY => []],
+    'EXTCONF' => [Configuration::EXT_KEY => ['configuration' => ['imagePath' => self::IMAGE_PATH]]],
+])]
 final class PathUtilityTest extends TestCase
 {
     private const IMAGE_PATH = '/.Build/var/tests/pathutil/';
@@ -51,21 +59,15 @@ final class PathUtilityTest extends TestCase
 
     protected function setUp(): void
     {
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask'] = '2775';
-        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][Configuration::EXT_KEY] = [];
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
-            'imagePath' => self::IMAGE_PATH,
-        ];
+        // Mock TYPO3 Environment (constants cannot be sandboxed via attributes)
+        if (!defined('TYPO3_PATH_ROOT')) {
+            define('TYPO3_PATH_ROOT', '/var/www/html');
+        }
     }
 
     protected function tearDown(): void
     {
         GeneralUtility::rmdir(Environment::getPublicPath().self::IMAGE_PATH, true);
-        unset(
-            $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][Configuration::EXT_KEY],
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY],
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask'],
-        );
     }
 
     #[Test]

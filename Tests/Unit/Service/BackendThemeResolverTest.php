@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Service;
 
+use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Service\BackendThemeResolver;
 use PHPUnit\Framework\Attributes\Test;
@@ -24,32 +25,26 @@ use PHPUnit\Framework\TestCase;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
+#[WithTypo3ConfVars(['EXTCONF' => [Configuration::EXT_KEY => ['configuration' => [
+    'backendThemes' => [
+        // theme-specific (primary axis)
+        'modern' => 'backend-modern',
+        'fresh' => 'backend-fresh',
+        'classic' => 'backend-classic',
+        // scheme fallback (only used when theme is unknown)
+        'light' => 'grayscale-light',
+        'dark' => 'grayscale-dark',
+        'auto' => 'grayscale-light',
+        'default' => 'backend-modern',
+    ],
+]]]])]
 final class BackendThemeResolverTest extends TestCase
 {
     private BackendThemeResolver $resolver;
 
     protected function setUp(): void
     {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
-            'backendThemes' => [
-                // theme-specific (primary axis)
-                'modern' => 'backend-modern',
-                'fresh' => 'backend-fresh',
-                'classic' => 'backend-classic',
-                // scheme fallback (only used when theme is unknown)
-                'light' => 'grayscale-light',
-                'dark' => 'grayscale-dark',
-                'auto' => 'grayscale-light',
-                'default' => 'backend-modern',
-            ],
-        ];
-
         $this->resolver = new BackendThemeResolver();
-    }
-
-    protected function tearDown(): void
-    {
-        unset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]);
     }
 
     #[Test]

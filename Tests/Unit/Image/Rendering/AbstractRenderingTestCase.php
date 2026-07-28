@@ -16,7 +16,6 @@ namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Image\Rendering;
 use KonradMichalik\Typo3LetterAvatar\Enum\Shape;
 use KonradMichalik\Typo3LetterAvatar\Image\AbstractImageProvider;
 use PHPUnit\Framework\TestCase;
-use TYPO3\CMS\Core\Core\{ApplicationContext, Environment};
 
 use function count;
 use function dirname;
@@ -33,28 +32,6 @@ abstract class AbstractRenderingTestCase extends TestCase
     protected const SIZE = 100;
     protected const TOLERANCE = 0.15;
     protected const MIN_PIXELS = 50;
-
-    private static bool $environmentInitialized = false;
-
-    public static function setUpBeforeClass(): void
-    {
-        if (self::$environmentInitialized) {
-            return;
-        }
-        $extensionRoot = dirname(__DIR__, 4);
-        Environment::initialize(
-            new ApplicationContext('Testing'),
-            true,
-            false,
-            $extensionRoot,
-            $extensionRoot,
-            $extensionRoot.'/.Build/var',
-            $extensionRoot.'/.Build/var/config',
-            $extensionRoot.'/.Build/public/index.php',
-            'UNIX',
-        );
-        self::$environmentInitialized = true;
-    }
 
     /**
      * @return array<string, array{Shape}>

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Image\Rendering;
 
+use KonradMichalik\Ttt\Attribute\WithEnvironment;
 use KonradMichalik\Typo3LetterAvatar\Enum\Shape;
 use KonradMichalik\Typo3LetterAvatar\Image\AbstractImageProvider;
 use KonradMichalik\Typo3LetterAvatar\Image\Driver\Gmagick;
@@ -23,6 +24,7 @@ use KonradMichalik\Typo3LetterAvatar\Image\Driver\Gmagick;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
+#[WithEnvironment(projectPath: 'self', temporaryProjectPath: false)]
 final class GmagickRenderingTest extends AbstractRenderingTestCase
 {
     protected function setUp(): void
