@@ -13,11 +13,15 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\ViewHelpers;
 
+use BackedEnum;
 use InvalidArgumentException;
 use KonradMichalik\Typo3LetterAvatar\Enum\{ColorMode, ImageFormat, Shape, Transform};
 use KonradMichalik\Typo3LetterAvatar\Image\Avatar;
 use KonradMichalik\Typo3LetterAvatar\Utility\ConfigurationUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
+use function is_string;
+use function sprintf;
 
 /**
  * AvatarViewHelper.
@@ -109,18 +113,21 @@ class AvatarViewHelper extends AbstractViewHelper
             throw new InvalidArgumentException('Either name or initials must be provided', 1204028706);
         }
 
-        $configuration = [
+        // Omit unresolved (null) values so the Avatar constructor defaults apply.
+        $configuration = array_filter([
             'name' => $this->arguments['name'] ?? '',
             'initials' => $this->arguments['initials'] ?? '',
-            'mode' => (isset($this->arguments['mode']) && '' !== $this->arguments['mode']) ? ColorMode::tryFrom($this->arguments['mode']) : ConfigurationUtility::get('mode', ColorMode::class),
+            'mode' => $this->resolveEnumArgument('mode', ColorMode::class, 'colorMode'),
             'theme' => $this->arguments['theme'] ?? ConfigurationUtility::get('theme'),
             'size' => $this->arguments['size'] ?? ConfigurationUtility::get('size'),
             'fontSize' => $this->arguments['fontSize'] ?? ConfigurationUtility::get('fontSize'),
             'fontPath' => $this->arguments['fontPath'] ?? ConfigurationUtility::get('fontPath'),
-            'imageFormat' => (isset($this->arguments['imageFormat']) && '' !== $this->arguments['imageFormat']) ? ImageFormat::tryFrom($this->arguments['imageFormat']) : ConfigurationUtility::get('imageFormat', ImageFormat::class),
-            'transform' => (isset($this->arguments['transform']) && '' !== $this->arguments['transform']) ? Transform::tryFrom($this->arguments['transform']) : ConfigurationUtility::get('transform', Transform::class),
-            'shape' => (isset($this->arguments['shape']) && '' !== $this->arguments['shape']) ? Shape::tryFrom($this->arguments['shape']) : ConfigurationUtility::get('shape', Shape::class),
-        ];
+            'foregroundColor' => $this->arguments['foregroundColor'] ?? null,
+            'backgroundColor' => $this->arguments['backgroundColor'] ?? null,
+            'imageFormat' => $this->resolveEnumArgument('imageFormat', ImageFormat::class, 'imageFormat'),
+            'transform' => $this->resolveEnumArgument('transform', Transform::class, 'transform'),
+            'shape' => $this->resolveEnumArgument('shape', Shape::class, 'shape'),
+        ], static fn (mixed $value): bool => null !== $value);
 
         $avatarService = Avatar::create(...$configuration);
 
@@ -129,5 +136,25 @@ class AvatarViewHelper extends AbstractViewHelper
         }
 
         return $avatarService->getWebPath();
+    }
+
+    /**
+     * @template T of BackedEnum
+     *
+     * @param class-string<T> $enumClass
+     *
+     * @return T|null
+     */
+    private function resolveEnumArgument(string $argument, string $enumClass, string $configurationKey): ?BackedEnum
+    {
+        $value = $this->arguments[$argument] ?? '';
+
+        if (is_string($value) && '' !== $value) {
+            return $enumClass::tryFrom($value) ?? throw new InvalidArgumentException(sprintf('Invalid value "%s" for avatar argument "%s".', $value, $argument), 1751719200);
+        }
+
+        $configured = ConfigurationUtility::get($configurationKey, $enumClass);
+
+        return $configured instanceof $enumClass ? $configured : null;
     }
 }
