@@ -8,7 +8,7 @@
 ![TYPO3](https://img.shields.io/badge/TYPO3-13.4%20%7C%2014.0-orange.svg)
 [![Supported PHP Versions](https://img.shields.io/packagist/dependency-v/konradmichalik/typo3-letter-avatar/php?logo=php)](https://packagist.org/packages/konradmichalik/typo3-letter-avatar)
 ![Stability](https://typo3-badges.dev/badge/typo3_letter_avatar/stability/shields.svg)
-[![Coverage](https://img.shields.io/coverallsCoverage/github/konradmichalik/typo3-letter-avatar?logo=coveralls)](https://coveralls.io/github/konradmichalik/typo3-letter-avatar)
+[![Coverage](https://coveralls.io/repos/github/konradmichalik/typo3-letter-avatar/badge.svg?branch=main)](https://coveralls.io/github/konradmichalik/typo3-letter-avatar)
 [![CGL](https://img.shields.io/github/actions/workflow/status/konradmichalik/typo3-letter-avatar/cgl.yml?label=cgl&logo=github)](https://github.com/konradmichalik/typo3-letter-avatar/actions/workflows/cgl.yml)
 [![Tests](https://img.shields.io/github/actions/workflow/status/konradmichalik/typo3-letter-avatar/tests.yml?label=tests&logo=github)](https://github.com/konradmichalik/typo3-letter-avatar/actions/workflows/tests.yml)
 [![License](https://poser.pugx.org/konradmichalik/typo3-letter-avatar/license)](LICENSE.md)
