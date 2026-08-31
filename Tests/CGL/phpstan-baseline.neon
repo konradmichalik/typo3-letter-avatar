@@ -245,3 +245,87 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: ../../Classes/Utility/StringUtility.php
+
+		-
+			message: '#^Error suppression via "@" should not be used\.$#'
+			identifier: ergebnis.noErrorSuppression
+			count: 1
+			path: ../../Classes/Command/ClearAvatarsCommand.php
+
+		-
+			message: '#^Error suppression via "@" should not be used\.$#'
+			identifier: ergebnis.noErrorSuppression
+			count: 1
+			path: ../../Classes/Service/BackendThemeResolver.php
+
+		-
+			message: '#^Constructor in KonradMichalik\\Typo3LetterAvatar\\Image\\AbstractImageProvider has parameter \$backgroundColor with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
+			count: 1
+			path: ../../Classes/Image/AbstractImageProvider.php
+
+		-
+			message: '#^Constructor in KonradMichalik\\Typo3LetterAvatar\\Image\\AbstractImageProvider has parameter \$fontPath with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
+			count: 1
+			path: ../../Classes/Image/AbstractImageProvider.php
+
+		-
+			message: '#^Constructor in KonradMichalik\\Typo3LetterAvatar\\Image\\AbstractImageProvider has parameter \$fontSize with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
+			count: 1
+			path: ../../Classes/Image/AbstractImageProvider.php
+
+		-
+			message: '#^Constructor in KonradMichalik\\Typo3LetterAvatar\\Image\\AbstractImageProvider has parameter \$foregroundColor with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
+			count: 1
+			path: ../../Classes/Image/AbstractImageProvider.php
+
+		-
+			message: '#^Constructor in KonradMichalik\\Typo3LetterAvatar\\Image\\AbstractImageProvider has parameter \$imageFormat with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
+			count: 1
+			path: ../../Classes/Image/AbstractImageProvider.php
+
+		-
+			message: '#^Constructor in KonradMichalik\\Typo3LetterAvatar\\Image\\AbstractImageProvider has parameter \$initials with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
+			count: 1
+			path: ../../Classes/Image/AbstractImageProvider.php
+
+		-
+			message: '#^Constructor in KonradMichalik\\Typo3LetterAvatar\\Image\\AbstractImageProvider has parameter \$mode with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
+			count: 1
+			path: ../../Classes/Image/AbstractImageProvider.php
+
+		-
+			message: '#^Constructor in KonradMichalik\\Typo3LetterAvatar\\Image\\AbstractImageProvider has parameter \$name with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
+			count: 1
+			path: ../../Classes/Image/AbstractImageProvider.php
+
+		-
+			message: '#^Constructor in KonradMichalik\\Typo3LetterAvatar\\Image\\AbstractImageProvider has parameter \$shape with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
+			count: 1
+			path: ../../Classes/Image/AbstractImageProvider.php
+
+		-
+			message: '#^Constructor in KonradMichalik\\Typo3LetterAvatar\\Image\\AbstractImageProvider has parameter \$size with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
+			count: 1
+			path: ../../Classes/Image/AbstractImageProvider.php
+
+		-
+			message: '#^Constructor in KonradMichalik\\Typo3LetterAvatar\\Image\\AbstractImageProvider has parameter \$theme with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
+			count: 1
+			path: ../../Classes/Image/AbstractImageProvider.php
+
+		-
+			message: '#^Constructor in KonradMichalik\\Typo3LetterAvatar\\Image\\AbstractImageProvider has parameter \$transform with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
+			count: 1
+			path: ../../Classes/Image/AbstractImageProvider.php

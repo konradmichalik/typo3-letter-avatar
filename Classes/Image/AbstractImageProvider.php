@@ -47,7 +47,7 @@ abstract class AbstractImageProvider
         $this->colorizeService = new Colorize($this);
     }
 
-    public function getImagePath(?string $filename = null): string
+    final public function getImagePath(?string $filename = null): string
     {
         return PathUtility::getImageFolder().(
             null !== $filename && '' !== $filename
@@ -56,12 +56,12 @@ abstract class AbstractImageProvider
         );
     }
 
-    public function getWebPath(?string $filename = null): string
+    final public function getWebPath(?string $filename = null): string
     {
         return PathUtility::getWebPath($filename ?? $this->configToHash().'.'.$this->imageFormat->value);
     }
 
-    protected function configToHash(): string
+    final protected function configToHash(): string
     {
         $parts = [
             $this->name,
