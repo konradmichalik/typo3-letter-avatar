@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Image\Driver;
 
+use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Enum\ImageFormat;
 use KonradMichalik\Typo3LetterAvatar\Image\Driver\Gd;
@@ -30,6 +31,17 @@ use function extension_loaded;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
+#[WithTypo3ConfVars([
+    'SYS' => [
+        'folderCreateMask' => '2775',
+        'fileCreateMask' => '0664',
+        'encryptionKey' => 'test-encryption-key',
+    ],
+    'EXTENSIONS' => [Configuration::EXT_KEY => []],
+    'EXTCONF' => [Configuration::EXT_KEY => ['configuration' => [
+        'imagePath' => self::IMAGE_PATH,
+    ]]],
+])]
 final class GdSaveFormatTest extends TestCase
 {
     private const IMAGE_PATH = '/.Build/var/tests/save-format/';
@@ -55,26 +67,10 @@ final class GdSaveFormatTest extends TestCase
         if (!extension_loaded('gd')) {
             self::markTestSkipped('ext-gd is not available.');
         }
-
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask'] = '2775';
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['fileCreateMask'] = '0664';
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] = 'test-encryption-key';
-        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][Configuration::EXT_KEY] = [];
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
-            'imagePath' => self::IMAGE_PATH,
-        ];
     }
 
     protected function tearDown(): void
     {
-        unset(
-            $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][Configuration::EXT_KEY],
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY],
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask'],
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['fileCreateMask'],
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'],
-        );
-
         GeneralUtility::rmdir(Environment::getPublicPath().self::IMAGE_PATH, true);
     }
 

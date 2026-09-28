@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Command;
 
+use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
 use KonradMichalik\Typo3LetterAvatar\Command\ClearAvatarsCommand;
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use PHPUnit\Framework\Attributes\Test;
@@ -30,6 +31,13 @@ use function dirname;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
+#[WithTypo3ConfVars([
+    'SYS' => ['folderCreateMask' => '2775'],
+    'EXTENSIONS' => [Configuration::EXT_KEY => []],
+    'EXTCONF' => [Configuration::EXT_KEY => ['configuration' => [
+        'imagePath' => self::IMAGE_PATH,
+    ]]],
+])]
 final class ClearAvatarsCommandExecuteTest extends TestCase
 {
     private const IMAGE_PATH = '/.Build/var/tests/clear-avatars/';
@@ -50,23 +58,9 @@ final class ClearAvatarsCommandExecuteTest extends TestCase
         );
     }
 
-    protected function setUp(): void
-    {
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask'] = '2775';
-        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][Configuration::EXT_KEY] = [];
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
-            'imagePath' => self::IMAGE_PATH,
-        ];
-    }
-
     protected function tearDown(): void
     {
         GeneralUtility::rmdir(Environment::getPublicPath().self::IMAGE_PATH, true);
-        unset(
-            $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][Configuration::EXT_KEY],
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY],
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask'],
-        );
     }
 
     #[Test]
