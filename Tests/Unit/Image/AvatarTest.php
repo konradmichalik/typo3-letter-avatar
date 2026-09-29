@@ -56,15 +56,15 @@ final class AvatarTest extends TestCase
     }
 
     /**
-     * @return array<string, array{string, class-string}>
+     * @return array<string, array{WithTypo3ConfVars, class-string}>
      */
     public static function gfxProcessorProvider(): array
     {
         return [
-            'ImageMagick' => ['ImageMagick', Imagick::class],
-            'GraphicsMagick' => ['GraphicsMagick', Gmagick::class],
-            'gd' => ['gd', Gd::class],
-            'unknown processor' => ['unknown_processor', Gd::class],
+            'ImageMagick' => [new WithTypo3ConfVars(['GFX' => ['processor' => 'ImageMagick']]), Imagick::class],
+            'GraphicsMagick' => [new WithTypo3ConfVars(['GFX' => ['processor' => 'GraphicsMagick']]), Gmagick::class],
+            'gd' => [new WithTypo3ConfVars(['GFX' => ['processor' => 'gd']]), Gd::class],
+            'unknown processor' => [new WithTypo3ConfVars(['GFX' => ['processor' => 'unknown_processor']]), Gd::class],
         ];
     }
 
@@ -73,11 +73,9 @@ final class AvatarTest extends TestCase
      */
     #[Test]
     #[DataProvider('gfxProcessorProvider')]
-    public function createResolvesDriverFromGfxProcessor(string $processor, string $expected): void
+    public function createResolvesDriverFromGfxProcessor(WithTypo3ConfVars $gfx, string $expected): void
     {
         self::skipUnlessAvailable($expected);
-        // Restored by the class-level #[WithTypo3ConfVars]
-        $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] = $processor;
 
         self::assertInstanceOf($expected, Avatar::create(name: 'John Doe'));
     }
