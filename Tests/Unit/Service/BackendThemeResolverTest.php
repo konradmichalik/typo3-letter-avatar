@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Service;
 
-use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
+use KonradMichalik\Ttt\Attribute\{Typo3ConfVarsSentinel, WithTypo3ConfVars};
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Service\BackendThemeResolver;
-use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\{DataProvider, Test};
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -40,146 +40,66 @@ use PHPUnit\Framework\TestCase;
 ]]]])]
 final class BackendThemeResolverTest extends TestCase
 {
-    private BackendThemeResolver $resolver;
-
-    protected function setUp(): void
+    /**
+     * @return array<string, array{array<string, string>, string}>
+     */
+    public static function backendUserProvider(): array
     {
-        $this->resolver = new BackendThemeResolver();
-    }
-
-    #[Test]
-    public function resolveThemeNameReadsThemeFromJsonUserSettings(): void
-    {
-        $backendUser = [
-            'user_settings' => json_encode(['colorScheme' => 'dark', 'theme' => 'fresh']),
+        return [
+            'theme from JSON user settings' => [self::userSettings(['colorScheme' => 'dark', 'theme' => 'fresh']), 'backend-fresh'],
+            'theme from serialized uc' => [['uc' => serialize(['colorScheme' => 'light', 'theme' => 'classic'])], 'backend-classic'],
+            'JSON wins over uc' => [[...self::userSettings(['theme' => 'fresh']), 'uc' => serialize(['theme' => 'classic'])], 'backend-fresh'],
+            // TYPO3's default theme is "modern", users who never visited the setup get it implicitly
+            'missing theme counts as modern' => [self::userSettings(['colorScheme' => 'dark']), 'backend-modern'],
+            'empty backend user counts as modern' => [[], 'backend-modern'],
+            'unknown theme falls back to scheme' => [self::userSettings(['colorScheme' => 'dark', 'theme' => 'midnight']), 'grayscale-dark'],
+            'unknown scheme and theme fall back to default' => [self::userSettings(['colorScheme' => 'sepia', 'theme' => 'midnight']), 'backend-modern'],
+            'malformed JSON is ignored' => [['user_settings' => '{ not valid json'], 'backend-modern'],
+            'malformed uc is ignored' => [['uc' => 'not-a-valid-serialized-string'], 'backend-modern'],
         ];
-
-        self::assertSame('backend-fresh', $this->resolver->resolveThemeName($backendUser));
     }
 
+    /**
+     * @param array<string, string> $backendUser
+     */
     #[Test]
-    public function resolveThemeNameReadsThemeFromSerializedUc(): void
+    #[DataProvider('backendUserProvider')]
+    public function resolveThemeName(array $backendUser, string $expected): void
     {
-        $backendUser = [
-            'uc' => serialize(['colorScheme' => 'light', 'theme' => 'classic']),
-        ];
-
-        self::assertSame('backend-classic', $this->resolver->resolveThemeName($backendUser));
+        self::assertSame($expected, (new BackendThemeResolver())->resolveThemeName($backendUser));
     }
 
     #[Test]
-    public function resolveThemeNamePrefersJsonOverUcWhenBothPresent(): void
-    {
-        $backendUser = [
-            'user_settings' => json_encode(['theme' => 'fresh']),
-            'uc' => serialize(['theme' => 'classic']),
-        ];
-
-        self::assertSame('backend-fresh', $this->resolver->resolveThemeName($backendUser));
-    }
-
-    #[Test]
-    public function resolveThemeNameTreatsMissingThemeAsModern(): void
-    {
-        // TYPO3 default theme is "modern" — users who never visited the setup get this implicitly.
-        $backendUser = [
-            'user_settings' => json_encode(['colorScheme' => 'dark']),
-        ];
-
-        self::assertSame('backend-modern', $this->resolver->resolveThemeName($backendUser));
-    }
-
-    #[Test]
-    public function resolveThemeNameTreatsEmptyBackendUserAsModern(): void
-    {
-        self::assertSame('backend-modern', $this->resolver->resolveThemeName([]));
-    }
-
-    #[Test]
-    public function resolveThemeNameUsesSchemeFallbackForUnknownTheme(): void
-    {
-        // A future TYPO3 theme value the mapping doesn't know about.
-        $backendUser = [
-            'user_settings' => json_encode(['colorScheme' => 'dark', 'theme' => 'midnight']),
-        ];
-
-        self::assertSame('grayscale-dark', $this->resolver->resolveThemeName($backendUser));
-    }
-
-    #[Test]
-    public function resolveThemeNameFallsBackToDefaultForUnknownSchemeAndTheme(): void
-    {
-        $backendUser = [
-            'user_settings' => json_encode(['colorScheme' => 'sepia', 'theme' => 'midnight']),
-        ];
-
-        self::assertSame('backend-modern', $this->resolver->resolveThemeName($backendUser));
-    }
-
-    #[Test]
-    public function resolveThemeNameReturnsEmptyStringWhenMappingIsMissing(): void
-    {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [];
-
-        self::assertSame('', $this->resolver->resolveThemeName(['user_settings' => json_encode(['colorScheme' => 'dark'])]));
-    }
-
-    #[Test]
-    public function resolveThemeNameReturnsEmptyStringWhenSchemeUnknownAndNoDefault(): void
-    {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
-            'backendThemes' => [
-                'light' => 'grayscale-light',
-            ],
-        ];
-
-        self::assertSame('', $this->resolver->resolveThemeName(['user_settings' => json_encode(['colorScheme' => 'dark'])]));
-    }
-
-    #[Test]
-    public function resolveThemeNameHandlesMalformedJsonGracefully(): void
-    {
-        $backendUser = [
-            'user_settings' => '{ not valid json',
-        ];
-
-        // Falls back to the implicit "modern" default (no exception).
-        self::assertSame('backend-modern', $this->resolver->resolveThemeName($backendUser));
-    }
-
-    #[Test]
-    public function resolveThemeNameHandlesMalformedSerializedUcGracefully(): void
-    {
-        $backendUser = [
-            'uc' => 'not-a-valid-serialized-string',
-        ];
-
-        self::assertSame('backend-modern', $this->resolver->resolveThemeName($backendUser));
-    }
-
-    #[Test]
-    public function resolveThemeNameUsesThemePaletteRegardlessOfColorScheme(): void
-    {
-        $backendUser = [
-            'user_settings' => json_encode(['colorScheme' => 'dark', 'theme' => 'classic']),
-        ];
-
-        self::assertSame('backend-classic', $this->resolver->resolveThemeName($backendUser));
-    }
-
-    #[Test]
+    #[WithTypo3ConfVars(['EXTCONF' => [Configuration::EXT_KEY => ['configuration' => ['backendThemes' => ['dark:fresh' => 'custom-dark-fresh']]]]])]
     public function resolveThemeNamePrefersCompositeKeyOverThemeKey(): void
     {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration']['backendThemes'] = [
-            'dark:fresh' => 'custom-dark-fresh',
-            'fresh' => 'backend-fresh',
-            'default' => 'grayscale-light',
-        ];
+        $backendUser = self::userSettings(['colorScheme' => 'dark', 'theme' => 'fresh']);
 
-        $backendUser = [
-            'user_settings' => json_encode(['colorScheme' => 'dark', 'theme' => 'fresh']),
-        ];
+        self::assertSame('custom-dark-fresh', (new BackendThemeResolver())->resolveThemeName($backendUser));
+    }
 
-        self::assertSame('custom-dark-fresh', $this->resolver->resolveThemeName($backendUser));
+    #[Test]
+    #[WithTypo3ConfVars(['EXTCONF' => [Configuration::EXT_KEY => ['configuration' => ['backendThemes' => Typo3ConfVarsSentinel::Unset]]]])]
+    public function resolveThemeNameReturnsEmptyStringWithoutMapping(): void
+    {
+        self::assertSame('', (new BackendThemeResolver())->resolveThemeName(self::userSettings(['colorScheme' => 'dark'])));
+    }
+
+    #[Test]
+    #[WithTypo3ConfVars(['EXTCONF' => [Configuration::EXT_KEY => ['configuration' => ['backendThemes' => Typo3ConfVarsSentinel::Unset]]]])]
+    #[WithTypo3ConfVars(['EXTCONF' => [Configuration::EXT_KEY => ['configuration' => ['backendThemes' => ['light' => 'grayscale-light']]]]])]
+    public function resolveThemeNameReturnsEmptyStringWhenNothingMatchesAndNoDefault(): void
+    {
+        self::assertSame('', (new BackendThemeResolver())->resolveThemeName(self::userSettings(['colorScheme' => 'dark'])));
+    }
+
+    /**
+     * @param array<string, string> $settings
+     *
+     * @return array{user_settings: string}
+     */
+    private static function userSettings(array $settings): array
+    {
+        return ['user_settings' => json_encode($settings, \JSON_THROW_ON_ERROR)];
     }
 }
