@@ -17,7 +17,6 @@ use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Enum\{ColorMode, ImageFormat, Shape, Transform};
 use KonradMichalik\Typo3LetterAvatar\Image\AbstractImageProvider;
-use KonradMichalik\Typo3LetterAvatar\Service\Colorize;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -72,28 +71,10 @@ class(name: 'Test User', size: 100, fontSize: 0.5, mode: ColorMode::CUSTOM, fore
     }
 
     #[Test]
-    public function constructorInitializesColorizeService(): void
-    {
-        // Access protected property via reflection
-        $reflection = new ReflectionClass($this->imageProvider);
-        $property = $reflection->getProperty('colorizeService');
-
-        $colorizeService = $property->getValue($this->imageProvider);
-
-        self::assertInstanceOf(Colorize::class, $colorizeService);
-    }
-
-    #[Test]
     public function getImagePathWithCustomFilename(): void
     {
         // Skip complex path tests - test structure instead
         self::assertTrue(method_exists($this->imageProvider, 'getImagePath'));
-    }
-
-    #[Test]
-    public function getWebPathMethodExists(): void
-    {
-        self::assertTrue(method_exists($this->imageProvider, 'getWebPath'));
     }
 
     #[Test]

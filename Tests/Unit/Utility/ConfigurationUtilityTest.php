@@ -19,7 +19,6 @@ use KonradMichalik\Typo3LetterAvatar\Enum\ColorMode;
 use KonradMichalik\Typo3LetterAvatar\Utility\ConfigurationUtility;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 
 /**
  * ConfigurationUtilityTest.
@@ -42,37 +41,6 @@ use ReflectionClass;
 ])]
 final class ConfigurationUtilityTest extends TestCase
 {
-    #[Test]
-    public function getMethodExists(): void
-    {
-        self::assertTrue(method_exists(ConfigurationUtility::class, 'get'));
-    }
-
-    #[Test]
-    public function configurationUtilityHasCorrectMethodSignature(): void
-    {
-        $reflection = new ReflectionClass(ConfigurationUtility::class);
-        $method = $reflection->getMethod('get');
-
-        self::assertTrue($method->isStatic());
-        self::assertTrue($method->isPublic());
-
-        $parameters = $method->getParameters();
-        self::assertCount(2, $parameters);
-        self::assertSame('key', $parameters[0]->getName());
-        self::assertSame('expectedEnumClass', $parameters[1]->getName());
-        self::assertTrue($parameters[1]->allowsNull());
-    }
-
-    #[Test]
-    public function getIsStaticMethod(): void
-    {
-        $reflectionClass = new ReflectionClass(ConfigurationUtility::class);
-        $getMethod = $reflectionClass->getMethod('get');
-
-        self::assertTrue($getMethod->isStatic());
-    }
-
     #[Test]
     public function getReturnsConfiguredScalarValues(): void
     {

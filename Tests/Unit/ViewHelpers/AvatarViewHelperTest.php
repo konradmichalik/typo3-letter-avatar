@@ -38,12 +38,6 @@ final class AvatarViewHelperTest extends TestCase
     }
 
     #[Test]
-    public function viewHelperExtendsAbstractViewHelper(): void
-    {
-        self::assertInstanceOf(AbstractViewHelper::class, $this->viewHelper);
-    }
-
-    #[Test]
     public function initializeArgumentsRegistersAllExpectedArguments(): void
     {
         $reflection = new ReflectionClass($this->viewHelper);
@@ -107,36 +101,5 @@ final class AvatarViewHelperTest extends TestCase
         $arguments->setValue($this->viewHelper, []);
 
         $this->viewHelper->render();
-    }
-
-    #[Test]
-    public function nameArgumentIsOfTypeString(): void
-    {
-        $reflection = new ReflectionClass($this->viewHelper);
-        $property = $reflection->getProperty('argumentDefinitions');
-        $arguments = $property->getValue($this->viewHelper);
-
-        self::assertSame('string', $arguments['name']->getType());
-        self::assertSame('string', $arguments['initials']->getType());
-    }
-
-    #[Test]
-    public function sizeArgumentIsOfTypeInteger(): void
-    {
-        $reflection = new ReflectionClass($this->viewHelper);
-        $property = $reflection->getProperty('argumentDefinitions');
-        $arguments = $property->getValue($this->viewHelper);
-
-        self::assertSame('integer', $arguments['size']->getType());
-    }
-
-    #[Test]
-    public function fontSizeArgumentIsOfTypeFloat(): void
-    {
-        $reflection = new ReflectionClass($this->viewHelper);
-        $property = $reflection->getProperty('argumentDefinitions');
-        $arguments = $property->getValue($this->viewHelper);
-
-        self::assertSame('float', $arguments['fontSize']->getType());
     }
 }

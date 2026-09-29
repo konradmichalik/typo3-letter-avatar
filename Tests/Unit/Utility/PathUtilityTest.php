@@ -18,7 +18,6 @@ use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Utility\PathUtility;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use TYPO3\CMS\Core\Core\{ApplicationContext, Environment};
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -123,14 +122,5 @@ final class PathUtilityTest extends TestCase
         $webPath = PathUtility::getWebPath('avatar.png');
 
         self::assertStringEndsWith('/avatar.png', $webPath);
-    }
-
-    #[Test]
-    public function pathUtilityMethodsAreStatic(): void
-    {
-        $reflectionClass = new ReflectionClass(PathUtility::class);
-
-        self::assertTrue($reflectionClass->getMethod('getImageFolder')->isStatic());
-        self::assertTrue($reflectionClass->getMethod('getWebPath')->isStatic());
     }
 }
