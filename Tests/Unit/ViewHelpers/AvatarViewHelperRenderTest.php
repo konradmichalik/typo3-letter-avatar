@@ -46,7 +46,6 @@ use function extension_loaded;
     'EXTCONF' => [Configuration::EXT_KEY => ['configuration' => [
         'size' => 50,
         'fontSize' => 0.5,
-        'imagePath' => self::IMAGE_PATH,
         'imageFormat' => ImageFormat::PNG,
         'shape' => Shape::CIRCLE,
         'transform' => Transform::NONE,
@@ -66,16 +65,21 @@ final class AvatarViewHelperRenderTest extends TestCase
 {
     private const IMAGE_PATH = '/.Build/var/tests/avatars/';
 
+    // Infection runs tests in parallel processes; a shared directory lets them delete each other's files
+    private string $imagePath;
+
     protected function setUp(): void
     {
         if (!extension_loaded('gd')) {
             self::markTestSkipped('ext-gd is not available.');
         }
+
+        $this->imagePath = self::IMAGE_PATH.bin2hex(random_bytes(8)).'/';
     }
 
     protected function tearDown(): void
     {
-        GeneralUtility::rmdir(Environment::getPublicPath().self::IMAGE_PATH, true);
+        GeneralUtility::rmdir(Environment::getPublicPath().$this->imagePath, true);
     }
 
     #[Test]
@@ -151,8 +155,9 @@ final class AvatarViewHelperRenderTest extends TestCase
      */
     private function render(array $arguments): string
     {
-        // Absolute path needs dirname(), which is not allowed in attribute arguments
+        // Values not known at compile time, restored by the class-level #[WithTypo3ConfVars]
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][Configuration::EXT_KEY]['fontPath'] = dirname(__DIR__, 3).'/Resources/Public/Fonts/NotoSans-Bold.ttf';
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration']['imagePath'] = $this->imagePath;
 
         $viewHelper = new AvatarViewHelper();
         $viewHelper->initializeArguments();
