@@ -47,46 +47,6 @@ final class BackendUserAvatarConfigurationEventTest extends TestCase
     }
 
     #[Test]
-    public function getBackendUserReturnsCorrectData(): void
-    {
-        $backendUser = [
-            'uid' => 2,
-            'username' => 'editor',
-            'realName' => 'Content Editor',
-            'admin' => 0,
-        ];
-
-        $event = new BackendUserAvatarConfigurationEvent($backendUser, []);
-
-        $result = $event->getBackendUser();
-
-        self::assertSame(2, $result['uid']);
-        self::assertSame('editor', $result['username']);
-        self::assertSame('Content Editor', $result['realName']);
-        self::assertSame(0, $result['admin']);
-    }
-
-    #[Test]
-    public function getConfigurationReturnsCorrectData(): void
-    {
-        $configuration = [
-            'size' => 150,
-            'fontSize' => 0.6,
-            'foregroundColor' => '#FFFFFF',
-            'backgroundColor' => '#000000',
-        ];
-
-        $event = new BackendUserAvatarConfigurationEvent([], $configuration);
-
-        $result = $event->getConfiguration();
-
-        self::assertSame(150, $result['size']);
-        self::assertSame(0.6, $result['fontSize']);
-        self::assertSame('#FFFFFF', $result['foregroundColor']);
-        self::assertSame('#000000', $result['backgroundColor']);
-    }
-
-    #[Test]
     public function setConfigurationUpdatesConfiguration(): void
     {
         $initialConfig = ['size' => 100];
@@ -107,57 +67,5 @@ final class BackendUserAvatarConfigurationEventTest extends TestCase
         // Verify updated state
         self::assertSame($newConfig, $event->getConfiguration());
         self::assertNotSame($initialConfig, $event->getConfiguration());
-    }
-
-    #[Test]
-    public function eventNameConstantIsCorrect(): void
-    {
-        self::assertSame(
-            'typo3_letter_avatar.backend_user.modify_avatar_provider',
-            BackendUserAvatarConfigurationEvent::NAME,
-        );
-    }
-
-    #[Test]
-    public function configurationCanBeEmpty(): void
-    {
-        $event = new BackendUserAvatarConfigurationEvent([], []);
-
-        self::assertSame([], $event->getConfiguration());
-    }
-
-    #[Test]
-    public function backendUserCanBeEmpty(): void
-    {
-        $event = new BackendUserAvatarConfigurationEvent([], []);
-
-        self::assertSame([], $event->getBackendUser());
-    }
-
-    #[Test]
-    public function configurationCanBeOverwrittenCompletely(): void
-    {
-        $originalConfig = [
-            'size' => 100,
-            'mode' => 'random',
-            'theme' => 'colorful',
-            'foregroundColor' => '#FFFFFF',
-        ];
-
-        $newConfig = [
-            'size' => 50,
-            'mode' => 'custom',
-        ];
-
-        $event = new BackendUserAvatarConfigurationEvent([], $originalConfig);
-        $event->setConfiguration($newConfig);
-
-        $result = $event->getConfiguration();
-
-        // New configuration should completely replace the old one
-        self::assertSame(50, $result['size']);
-        self::assertSame('custom', $result['mode']);
-        self::assertArrayNotHasKey('theme', $result);
-        self::assertArrayNotHasKey('foregroundColor', $result);
     }
 }

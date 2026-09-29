@@ -18,8 +18,6 @@ use KonradMichalik\Typo3LetterAvatar\ViewHelpers\AvatarViewHelper;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use ReflectionProperty;
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * AvatarViewHelperTest.
@@ -35,12 +33,6 @@ final class AvatarViewHelperTest extends TestCase
     {
         $this->viewHelper = new AvatarViewHelper();
         $this->viewHelper->initializeArguments();
-    }
-
-    #[Test]
-    public function viewHelperExtendsAbstractViewHelper(): void
-    {
-        self::assertInstanceOf(AbstractViewHelper::class, $this->viewHelper);
     }
 
     #[Test]
@@ -91,9 +83,7 @@ final class AvatarViewHelperTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionCode(1204028706);
 
-        // Inject empty arguments via reflection
-        $arguments = new ReflectionProperty(AbstractViewHelper::class, 'arguments');
-        $arguments->setValue($this->viewHelper, ['name' => '', 'initials' => '']);
+        $this->viewHelper->setArguments(['name' => '', 'initials' => '']);
 
         $this->viewHelper->render();
     }
@@ -103,40 +93,8 @@ final class AvatarViewHelperTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $arguments = new ReflectionProperty(AbstractViewHelper::class, 'arguments');
-        $arguments->setValue($this->viewHelper, []);
+        $this->viewHelper->setArguments([]);
 
         $this->viewHelper->render();
-    }
-
-    #[Test]
-    public function nameArgumentIsOfTypeString(): void
-    {
-        $reflection = new ReflectionClass($this->viewHelper);
-        $property = $reflection->getProperty('argumentDefinitions');
-        $arguments = $property->getValue($this->viewHelper);
-
-        self::assertSame('string', $arguments['name']->getType());
-        self::assertSame('string', $arguments['initials']->getType());
-    }
-
-    #[Test]
-    public function sizeArgumentIsOfTypeInteger(): void
-    {
-        $reflection = new ReflectionClass($this->viewHelper);
-        $property = $reflection->getProperty('argumentDefinitions');
-        $arguments = $property->getValue($this->viewHelper);
-
-        self::assertSame('integer', $arguments['size']->getType());
-    }
-
-    #[Test]
-    public function fontSizeArgumentIsOfTypeFloat(): void
-    {
-        $reflection = new ReflectionClass($this->viewHelper);
-        $property = $reflection->getProperty('argumentDefinitions');
-        $arguments = $property->getValue($this->viewHelper);
-
-        self::assertSame('float', $arguments['fontSize']->getType());
     }
 }

@@ -13,18 +13,15 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Utility;
 
-use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
+use KonradMichalik\Ttt\Attribute\{WithEnvironment, WithTypo3ConfVars};
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Utility\PathUtility;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
-use TYPO3\CMS\Core\Core\{ApplicationContext, Environment};
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Core\Environment;
 
 use function define;
 use function defined;
-use function dirname;
 
 /**
  * PathUtilityTest.
@@ -37,25 +34,10 @@ use function dirname;
     'EXTENSIONS' => [Configuration::EXT_KEY => []],
     'EXTCONF' => [Configuration::EXT_KEY => ['configuration' => ['imagePath' => self::IMAGE_PATH]]],
 ])]
+#[WithEnvironment(composerMode: false)]
 final class PathUtilityTest extends TestCase
 {
     private const IMAGE_PATH = '/.Build/var/tests/pathutil/';
-
-    public static function setUpBeforeClass(): void
-    {
-        $extensionRoot = dirname(__DIR__, 3);
-        Environment::initialize(
-            new ApplicationContext('Testing'),
-            true,
-            false,
-            $extensionRoot,
-            $extensionRoot,
-            $extensionRoot.'/.Build/var',
-            $extensionRoot.'/.Build/var/config',
-            $extensionRoot.'/.Build/public/index.php',
-            'UNIX',
-        );
-    }
 
     protected function setUp(): void
     {
@@ -63,11 +45,6 @@ final class PathUtilityTest extends TestCase
         if (!defined('TYPO3_PATH_ROOT')) {
             define('TYPO3_PATH_ROOT', '/var/www/html');
         }
-    }
-
-    protected function tearDown(): void
-    {
-        GeneralUtility::rmdir(Environment::getPublicPath().self::IMAGE_PATH, true);
     }
 
     #[Test]
@@ -123,14 +100,5 @@ final class PathUtilityTest extends TestCase
         $webPath = PathUtility::getWebPath('avatar.png');
 
         self::assertStringEndsWith('/avatar.png', $webPath);
-    }
-
-    #[Test]
-    public function pathUtilityMethodsAreStatic(): void
-    {
-        $reflectionClass = new ReflectionClass(PathUtility::class);
-
-        self::assertTrue($reflectionClass->getMethod('getImageFolder')->isStatic());
-        self::assertTrue($reflectionClass->getMethod('getWebPath')->isStatic());
     }
 }

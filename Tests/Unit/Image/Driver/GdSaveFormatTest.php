@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Image\Driver;
 
-use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
+use KonradMichalik\Ttt\Attribute\{WithEnvironment, WithTypo3ConfVars};
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Enum\ImageFormat;
 use KonradMichalik\Typo3LetterAvatar\Image\Driver\Gd;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use TYPO3\CMS\Core\Core\{ApplicationContext, Environment};
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use function dirname;
@@ -42,25 +42,10 @@ use function extension_loaded;
         'imagePath' => self::IMAGE_PATH,
     ]]],
 ])]
+#[WithEnvironment(projectPath: 'self', temporaryProjectPath: false)]
 final class GdSaveFormatTest extends TestCase
 {
     private const IMAGE_PATH = '/.Build/var/tests/save-format/';
-
-    public static function setUpBeforeClass(): void
-    {
-        $extensionRoot = dirname(__DIR__, 4);
-        Environment::initialize(
-            new ApplicationContext('Testing'),
-            true,
-            false,
-            $extensionRoot,
-            $extensionRoot,
-            $extensionRoot.'/.Build/var',
-            $extensionRoot.'/.Build/var/config',
-            $extensionRoot.'/.Build/public/index.php',
-            'UNIX',
-        );
-    }
 
     protected function setUp(): void
     {

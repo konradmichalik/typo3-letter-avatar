@@ -13,17 +13,15 @@ declare(strict_types=1);
 
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\Command;
 
-use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
+use KonradMichalik\Ttt\Attribute\{WithEnvironment, WithTypo3ConfVars};
 use KonradMichalik\Typo3LetterAvatar\Command\ClearAvatarsCommand;
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
-use TYPO3\CMS\Core\Core\{ApplicationContext, Environment};
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-use function dirname;
 
 /**
  * ClearAvatarsCommandExecuteTest.
@@ -38,30 +36,10 @@ use function dirname;
         'imagePath' => self::IMAGE_PATH,
     ]]],
 ])]
+#[WithEnvironment(composerMode: false)]
 final class ClearAvatarsCommandExecuteTest extends TestCase
 {
     private const IMAGE_PATH = '/.Build/var/tests/clear-avatars/';
-
-    public static function setUpBeforeClass(): void
-    {
-        $extensionRoot = dirname(__DIR__, 3);
-        Environment::initialize(
-            new ApplicationContext('Testing'),
-            true,
-            false,
-            $extensionRoot,
-            $extensionRoot,
-            $extensionRoot.'/.Build/var',
-            $extensionRoot.'/.Build/var/config',
-            $extensionRoot.'/.Build/public/index.php',
-            'UNIX',
-        );
-    }
-
-    protected function tearDown(): void
-    {
-        GeneralUtility::rmdir(Environment::getPublicPath().self::IMAGE_PATH, true);
-    }
 
     #[Test]
     public function dryRunCountsAvatarsWithoutDeletingThem(): void
