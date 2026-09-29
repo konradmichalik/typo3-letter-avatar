@@ -14,13 +14,14 @@ declare(strict_types=1);
 namespace KonradMichalik\Typo3LetterAvatar\Tests\Unit\ViewHelpers;
 
 use InvalidArgumentException;
+use KonradMichalik\Ttt\Attribute\{WithEnvironment, WithTypo3ConfVars};
 use KonradMichalik\Typo3LetterAvatar\Configuration;
 use KonradMichalik\Typo3LetterAvatar\Enum\{ImageFormat, Shape, Transform};
 use KonradMichalik\Typo3LetterAvatar\ViewHelpers\AvatarViewHelper;
 use PHPUnit\Framework\Attributes\{DataProvider, Test};
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
-use TYPO3\CMS\Core\Core\{ApplicationContext, Environment};
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -33,72 +34,49 @@ use function extension_loaded;
  * @author Konrad Michalik <hej@konradmichalik.dev>
  * @license GPL-2.0-or-later
  */
+#[WithEnvironment(projectPath: 'self', temporaryProjectPath: false)]
+#[WithTypo3ConfVars([
+    'SYS' => [
+        'folderCreateMask' => '2775',
+        'fileCreateMask' => '0664',
+        'encryptionKey' => 'test-encryption-key',
+    ],
+    'EXTENSIONS' => [Configuration::EXT_KEY => [
+        'colorMode' => 'stringify',
+        'theme' => 'colorful',
+    ]],
+    'EXTCONF' => [Configuration::EXT_KEY => ['configuration' => [
+        'size' => 50,
+        'fontSize' => 0.5,
+        'imagePath' => self::IMAGE_PATH,
+        'imageFormat' => ImageFormat::PNG,
+        'shape' => Shape::CIRCLE,
+        'transform' => Transform::NONE,
+        'random' => [
+            'foregrounds' => ['#FFFFFF'],
+            'backgrounds' => ['#FF0000', '#00FF00'],
+        ],
+        'themes' => [
+            'colorful' => [
+                'foregrounds' => ['#FFFFFF'],
+                'backgrounds' => ['#2196F3'],
+            ],
+        ],
+    ]]],
+])]
 final class AvatarViewHelperRenderTest extends TestCase
 {
     private const IMAGE_PATH = '/.Build/var/tests/avatars/';
-
-    public static function setUpBeforeClass(): void
-    {
-        $extensionRoot = dirname(__DIR__, 3);
-        Environment::initialize(
-            new ApplicationContext('Testing'),
-            true,
-            false,
-            $extensionRoot,
-            $extensionRoot,
-            $extensionRoot.'/.Build/var',
-            $extensionRoot.'/.Build/var/config',
-            $extensionRoot.'/.Build/public/index.php',
-            'UNIX',
-        );
-    }
 
     protected function setUp(): void
     {
         if (!extension_loaded('gd')) {
             self::markTestSkipped('ext-gd is not available.');
         }
-
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask'] = '2775';
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['fileCreateMask'] = '0664';
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] = 'test-encryption-key';
-
-        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][Configuration::EXT_KEY] = [
-            'colorMode' => 'stringify',
-            'theme' => 'colorful',
-            'fontPath' => dirname(__DIR__, 3).'/Resources/Public/Fonts/NotoSans-Bold.ttf',
-        ];
-
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY]['configuration'] = [
-            'size' => 50,
-            'fontSize' => 0.5,
-            'imagePath' => self::IMAGE_PATH,
-            'imageFormat' => ImageFormat::PNG,
-            'shape' => Shape::CIRCLE,
-            'transform' => Transform::NONE,
-            'random' => [
-                'foregrounds' => ['#FFFFFF'],
-                'backgrounds' => ['#FF0000', '#00FF00'],
-            ],
-            'themes' => [
-                'colorful' => [
-                    'foregrounds' => ['#FFFFFF'],
-                    'backgrounds' => ['#2196F3'],
-                ],
-            ],
-        ];
     }
 
     protected function tearDown(): void
     {
-        unset(
-            $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][Configuration::EXT_KEY],
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][Configuration::EXT_KEY],
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask'],
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['fileCreateMask'],
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'],
-        );
-
         GeneralUtility::rmdir(Environment::getPublicPath().self::IMAGE_PATH, true);
     }
 
@@ -175,6 +153,9 @@ final class AvatarViewHelperRenderTest extends TestCase
      */
     private function render(array $arguments): string
     {
+        // Absolute path needs dirname(), which is not allowed in attribute arguments
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][Configuration::EXT_KEY]['fontPath'] = dirname(__DIR__, 3).'/Resources/Public/Fonts/NotoSans-Bold.ttf';
+
         $viewHelper = new AvatarViewHelper();
         $viewHelper->initializeArguments();
 
