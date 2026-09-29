@@ -20,10 +20,8 @@ use KonradMichalik\Typo3LetterAvatar\Enum\{ImageFormat, Shape, Transform};
 use KonradMichalik\Typo3LetterAvatar\ViewHelpers\AvatarViewHelper;
 use PHPUnit\Framework\Attributes\{DataProvider, Test};
 use PHPUnit\Framework\TestCase;
-use ReflectionProperty;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 use function dirname;
 use function extension_loaded;
@@ -159,8 +157,7 @@ final class AvatarViewHelperRenderTest extends TestCase
         $viewHelper = new AvatarViewHelper();
         $viewHelper->initializeArguments();
 
-        $argumentsProperty = new ReflectionProperty(AbstractViewHelper::class, 'arguments');
-        $argumentsProperty->setValue($viewHelper, $arguments);
+        $viewHelper->setArguments($arguments);
 
         return $viewHelper->render();
     }

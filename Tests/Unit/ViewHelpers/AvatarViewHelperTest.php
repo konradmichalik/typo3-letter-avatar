@@ -18,8 +18,6 @@ use KonradMichalik\Typo3LetterAvatar\ViewHelpers\AvatarViewHelper;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use ReflectionProperty;
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * AvatarViewHelperTest.
@@ -85,9 +83,7 @@ final class AvatarViewHelperTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionCode(1204028706);
 
-        // Inject empty arguments via reflection
-        $arguments = new ReflectionProperty(AbstractViewHelper::class, 'arguments');
-        $arguments->setValue($this->viewHelper, ['name' => '', 'initials' => '']);
+        $this->viewHelper->setArguments(['name' => '', 'initials' => '']);
 
         $this->viewHelper->render();
     }
@@ -97,8 +93,7 @@ final class AvatarViewHelperTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $arguments = new ReflectionProperty(AbstractViewHelper::class, 'arguments');
-        $arguments->setValue($this->viewHelper, []);
+        $this->viewHelper->setArguments([]);
 
         $this->viewHelper->render();
     }
