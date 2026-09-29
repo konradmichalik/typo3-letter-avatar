@@ -46,14 +46,14 @@ final class BackendThemeResolverTest extends TestCase
     public static function backendUserProvider(): array
     {
         return [
-            'theme from JSON user settings' => [['user_settings' => json_encode(['colorScheme' => 'dark', 'theme' => 'fresh'])], 'backend-fresh'],
+            'theme from JSON user settings' => [self::userSettings(['colorScheme' => 'dark', 'theme' => 'fresh']), 'backend-fresh'],
             'theme from serialized uc' => [['uc' => serialize(['colorScheme' => 'light', 'theme' => 'classic'])], 'backend-classic'],
-            'JSON wins over uc' => [['user_settings' => json_encode(['theme' => 'fresh']), 'uc' => serialize(['theme' => 'classic'])], 'backend-fresh'],
+            'JSON wins over uc' => [[...self::userSettings(['theme' => 'fresh']), 'uc' => serialize(['theme' => 'classic'])], 'backend-fresh'],
             // TYPO3's default theme is "modern", users who never visited the setup get it implicitly
-            'missing theme counts as modern' => [['user_settings' => json_encode(['colorScheme' => 'dark'])], 'backend-modern'],
+            'missing theme counts as modern' => [self::userSettings(['colorScheme' => 'dark']), 'backend-modern'],
             'empty backend user counts as modern' => [[], 'backend-modern'],
-            'unknown theme falls back to scheme' => [['user_settings' => json_encode(['colorScheme' => 'dark', 'theme' => 'midnight'])], 'grayscale-dark'],
-            'unknown scheme and theme fall back to default' => [['user_settings' => json_encode(['colorScheme' => 'sepia', 'theme' => 'midnight'])], 'backend-modern'],
+            'unknown theme falls back to scheme' => [self::userSettings(['colorScheme' => 'dark', 'theme' => 'midnight']), 'grayscale-dark'],
+            'unknown scheme and theme fall back to default' => [self::userSettings(['colorScheme' => 'sepia', 'theme' => 'midnight']), 'backend-modern'],
             'malformed JSON is ignored' => [['user_settings' => '{ not valid json'], 'backend-modern'],
             'malformed uc is ignored' => [['uc' => 'not-a-valid-serialized-string'], 'backend-modern'],
         ];
@@ -73,7 +73,7 @@ final class BackendThemeResolverTest extends TestCase
     #[WithTypo3ConfVars(['EXTCONF' => [Configuration::EXT_KEY => ['configuration' => ['backendThemes' => ['dark:fresh' => 'custom-dark-fresh']]]]])]
     public function resolveThemeNamePrefersCompositeKeyOverThemeKey(): void
     {
-        $backendUser = ['user_settings' => json_encode(['colorScheme' => 'dark', 'theme' => 'fresh'])];
+        $backendUser = self::userSettings(['colorScheme' => 'dark', 'theme' => 'fresh']);
 
         self::assertSame('custom-dark-fresh', (new BackendThemeResolver())->resolveThemeName($backendUser));
     }
@@ -82,7 +82,7 @@ final class BackendThemeResolverTest extends TestCase
     #[WithTypo3ConfVars(['EXTCONF' => [Configuration::EXT_KEY => ['configuration' => ['backendThemes' => Typo3ConfVarsSentinel::Unset]]]])]
     public function resolveThemeNameReturnsEmptyStringWithoutMapping(): void
     {
-        self::assertSame('', (new BackendThemeResolver())->resolveThemeName(['user_settings' => json_encode(['colorScheme' => 'dark'])]));
+        self::assertSame('', (new BackendThemeResolver())->resolveThemeName(self::userSettings(['colorScheme' => 'dark'])));
     }
 
     #[Test]
@@ -90,6 +90,16 @@ final class BackendThemeResolverTest extends TestCase
     #[WithTypo3ConfVars(['EXTCONF' => [Configuration::EXT_KEY => ['configuration' => ['backendThemes' => ['light' => 'grayscale-light']]]]])]
     public function resolveThemeNameReturnsEmptyStringWhenNothingMatchesAndNoDefault(): void
     {
-        self::assertSame('', (new BackendThemeResolver())->resolveThemeName(['user_settings' => json_encode(['colorScheme' => 'dark'])]));
+        self::assertSame('', (new BackendThemeResolver())->resolveThemeName(self::userSettings(['colorScheme' => 'dark'])));
+    }
+
+    /**
+     * @param array<string, string> $settings
+     *
+     * @return array{user_settings: string}
+     */
+    private static function userSettings(array $settings): array
+    {
+        return ['user_settings' => json_encode($settings, \JSON_THROW_ON_ERROR)];
     }
 }
