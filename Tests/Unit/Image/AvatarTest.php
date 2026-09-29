@@ -17,8 +17,10 @@ use KonradMichalik\Ttt\Attribute\WithTypo3ConfVars;
 use KonradMichalik\Typo3LetterAvatar\Enum\ImageDriver;
 use KonradMichalik\Typo3LetterAvatar\Image\Avatar;
 use KonradMichalik\Typo3LetterAvatar\Image\Driver\{Gd, Gmagick, Imagick};
-use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\{DataProvider, Test};
 use PHPUnit\Framework\TestCase;
+
+use function sprintf;
 
 /**
  * AvatarTest.
@@ -29,114 +31,66 @@ use PHPUnit\Framework\TestCase;
 #[WithTypo3ConfVars(['GFX' => ['processor' => 'ImageMagick']])]
 final class AvatarTest extends TestCase
 {
-    #[Test]
-    public function createReturnsImagickDriverByDefault(): void
+    /**
+     * @return array<string, array{ImageDriver, class-string}>
+     */
+    public static function explicitDriverProvider(): array
     {
-        if (!class_exists(\Imagick::class)) {
-            self::markTestSkipped('ext-imagick is not available.');
-        }
+        return [
+            'GD' => [ImageDriver::GD, Gd::class],
+            'ImageMagick' => [ImageDriver::IMAGICK, Imagick::class],
+            'GraphicsMagick' => [ImageDriver::GMAGICK, Gmagick::class],
+        ];
+    }
 
-        $avatar = Avatar::create(name: 'John Doe');
+    /**
+     * @param class-string $expected
+     */
+    #[Test]
+    #[DataProvider('explicitDriverProvider')]
+    public function createUsesExplicitImageDriverOverGfxProcessor(ImageDriver $driver, string $expected): void
+    {
+        self::skipUnlessAvailable($expected);
 
-        self::assertInstanceOf(Imagick::class, $avatar);
+        self::assertInstanceOf($expected, Avatar::create(name: 'John Doe', imageDriver: $driver));
+    }
+
+    /**
+     * @return array<string, array{string, class-string}>
+     */
+    public static function gfxProcessorProvider(): array
+    {
+        return [
+            'ImageMagick' => ['ImageMagick', Imagick::class],
+            'GraphicsMagick' => ['GraphicsMagick', Gmagick::class],
+            'gd' => ['gd', Gd::class],
+            'unknown processor' => ['unknown_processor', Gd::class],
+        ];
+    }
+
+    /**
+     * @param class-string $expected
+     */
+    #[Test]
+    #[DataProvider('gfxProcessorProvider')]
+    public function createResolvesDriverFromGfxProcessor(string $processor, string $expected): void
+    {
+        self::skipUnlessAvailable($expected);
+        // Restored by the class-level #[WithTypo3ConfVars]
+        $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] = $processor;
+
+        self::assertInstanceOf($expected, Avatar::create(name: 'John Doe'));
     }
 
     #[Test]
-    public function createReturnsGdDriverWhenSpecified(): void
-    {
-        $avatar = Avatar::create(name: 'John Doe', imageDriver: ImageDriver::GD);
-
-        self::assertInstanceOf(Gd::class, $avatar);
-    }
-
-    #[Test]
-    public function createReturnsGmagickDriverWhenSpecified(): void
-    {
-        if (!class_exists(\Gmagick::class)) {
-            self::markTestSkipped('ext-gmagick is not available.');
-        }
-
-        $avatar = Avatar::create(name: 'John Doe', imageDriver: ImageDriver::GMAGICK);
-
-        self::assertInstanceOf(Gmagick::class, $avatar);
-    }
-
-    #[Test]
-    public function createReturnsImagickDriverWhenSpecified(): void
-    {
-        if (!class_exists(\Imagick::class)) {
-            self::markTestSkipped('ext-imagick is not available.');
-        }
-
-        $avatar = Avatar::create(name: 'John Doe', imageDriver: ImageDriver::IMAGICK);
-
-        self::assertInstanceOf(Imagick::class, $avatar);
-    }
-
-    #[Test]
-    public function createUsesGlobalProcessorConfiguration(): void
-    {
-        if (!class_exists(\Gmagick::class)) {
-            self::markTestSkipped('ext-gmagick is not available.');
-        }
-
-        $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] = ImageDriver::GMAGICK->value;
-
-        $avatar = Avatar::create(name: 'John Doe');
-
-        self::assertInstanceOf(Gmagick::class, $avatar);
-    }
-
-    #[Test]
-    public function createWithGdConfiguration(): void
-    {
-        $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] = ImageDriver::GD->value;
-
-        $avatar = Avatar::create(name: 'John Doe');
-
-        self::assertInstanceOf(Gd::class, $avatar);
-    }
-
-    #[Test]
-    public function createResolvesGraphicsMagickStringFromGfxProcessor(): void
-    {
-        if (!class_exists(\Gmagick::class)) {
-            self::markTestSkipped('ext-gmagick is not available.');
-        }
-
-        $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] = 'GraphicsMagick';
-
-        $avatar = Avatar::create(name: 'John Doe');
-
-        self::assertInstanceOf(Gmagick::class, $avatar);
-    }
-
-    #[Test]
-    public function createResolvesImageMagickStringFromGfxProcessor(): void
-    {
-        if (!class_exists(\Imagick::class)) {
-            self::markTestSkipped('ext-imagick is not available.');
-        }
-
-        $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] = 'ImageMagick';
-
-        $avatar = Avatar::create(name: 'John Doe');
-
-        self::assertInstanceOf(Imagick::class, $avatar);
-    }
-
-    #[Test]
+    #[WithTypo3ConfVars(['GFX' => ['processor' => 'GraphicsMagick']])]
     public function createFallsBackToGdWhenNoImageExtensionAvailable(): void
     {
         if (class_exists(\Imagick::class) || class_exists(\Gmagick::class)) {
             self::markTestSkipped('Imagick or Gmagick is loaded; cannot test GD fallback.');
         }
 
-        $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] = 'GraphicsMagick';
-
-        $avatar = Avatar::create(name: 'John Doe');
-
-        self::assertInstanceOf(Gd::class, $avatar);
+        self::assertInstanceOf(Gd::class, Avatar::create(name: 'John Doe'));
     }
 
     #[Test]
@@ -153,26 +107,11 @@ final class AvatarTest extends TestCase
         self::assertSame(0.6, $avatar->fontSize);
     }
 
-    #[Test]
-    public function createIgnoresImageDriverInPassedArguments(): void
+    private static function skipUnlessAvailable(string $driver): void
     {
-        // When imageDriver is explicitly passed, it should be used and not passed to the constructor
-        $avatar = Avatar::create(
-            name: 'Test User',
-            imageDriver: ImageDriver::GD,
-        );
-
-        self::assertInstanceOf(Gd::class, $avatar);
-        self::assertSame('Test User', $avatar->name);
-    }
-
-    #[Test]
-    public function createFallsBackToGdForUnknownProcessor(): void
-    {
-        $GLOBALS['TYPO3_CONF_VARS']['GFX']['processor'] = 'unknown_processor';
-
-        $avatar = Avatar::create(name: 'John Doe');
-
-        self::assertInstanceOf(Gd::class, $avatar);
+        $extensionClass = [Imagick::class => \Imagick::class, Gmagick::class => \Gmagick::class][$driver] ?? null;
+        if (null !== $extensionClass && !class_exists($extensionClass)) {
+            self::markTestSkipped(sprintf('%s is not available.', $extensionClass));
+        }
     }
 }
