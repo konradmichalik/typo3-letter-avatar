@@ -17,7 +17,7 @@
 - `Resources/` fonts, icons, language files, public assets
 - `ext_localconf.php`, `ext_emconf.php`, `ext_conf_template.txt` extension manifests and default configuration
 - `Tests/Unit/` PHPUnit tests, mirror `Classes/`
-- `Tests/CGL/` separate Composer project with code style, static analysis and migration tooling
+- `Tests/CGL/` separate Composer project with code style, static analysis and migration tooling. Its `composer.lock` is committed and updated by Renovate, so tool releases only reach CI through a Renovate PR
 - `Tests/Acceptance/Fixtures/` backend user fixtures, imported by `ddev install`
 - `Documentation/` Markdown docs (Configuration, Usage, Migration)
 - `.ddev/` DDEV setup and commands to install TYPO3 13 and 14 test instances
