@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "079c6a86d22cb0bc44aec85db71d3cb1",
+    "content-hash": "f5d4fc89e1a6438858b870a9c3813de6",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2336,7 +2336,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-13T15:52:40+00:00"
+            "time": "2026-04-13T15:52:40+00:00",
+            "published-time": "2026-05-06T16:27:46+00:00"
         },
         {
             "name": "symfony/doctrine-messenger",
@@ -2715,7 +2716,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-11T16:38:44+00:00"
+            "time": "2026-05-11T16:38:44+00:00",
+            "published-time": "2026-05-13T18:05:21+00:00"
         },
         {
             "name": "symfony/finder",
@@ -3286,7 +3288,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-10T16:19:22+00:00"
+            "time": "2026-04-10T16:19:22+00:00",
+            "published-time": "2026-04-26T14:44:50+00:00"
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
@@ -3625,7 +3628,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-26T12:51:13+00:00"
+            "time": "2026-05-26T12:51:13+00:00",
+            "published-time": "2026-05-26T13:40:34+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -3709,7 +3713,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-10T16:19:22+00:00"
+            "time": "2026-04-10T16:19:22+00:00",
+            "published-time": "2026-04-26T14:44:45+00:00"
         },
         {
             "name": "symfony/polyfill-php83",
@@ -3937,7 +3942,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-23T16:05:06+00:00"
+            "time": "2026-05-23T16:05:06+00:00",
+            "published-time": "2026-05-27T08:45:03+00:00"
         },
         {
             "name": "symfony/rate-limiter",
@@ -4691,7 +4697,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-25T06:06:12+00:00"
+            "time": "2026-05-25T06:06:12+00:00",
+            "published-time": "2026-05-27T08:45:33+00:00"
         },
         {
             "name": "typo3/class-alias-loader",
@@ -5300,7 +5307,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-23T17:38:05+00:00"
+            "time": "2026-03-23T17:38:05+00:00",
+            "published-time": "2026-03-23T17:40:47+00:00"
         },
         {
             "name": "cyclonedx/cyclonedx-library",
@@ -5395,7 +5403,8 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-06-04T10:31:45+00:00"
+            "time": "2026-06-04T10:31:45+00:00",
+            "published-time": "2026-06-04T10:37:46+00:00"
         },
         {
             "name": "cypresslab/gitelephant",
@@ -5583,20 +5592,21 @@
                 "issues": "https://github.com/eliashaeussler/task-runner/issues",
                 "source": "https://github.com/eliashaeussler/task-runner/tree/1.2.2"
             },
-            "time": "2026-01-06T11:25:33+00:00"
+            "time": "2026-01-06T11:25:33+00:00",
+            "published-time": "2026-01-06T11:25:56+00:00"
         },
         {
             "name": "eliashaeussler/typo3-vendor-bundler",
-            "version": "4.1.1",
+            "version": "4.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eliashaeussler/typo3-vendor-bundler.git",
-                "reference": "c8dfecefa8afbc18846fec226284f8ea15d85f2f"
+                "reference": "76760a936dcd8a6bd1668aa97a00cf81f234d210"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eliashaeussler/typo3-vendor-bundler/zipball/c8dfecefa8afbc18846fec226284f8ea15d85f2f",
-                "reference": "c8dfecefa8afbc18846fec226284f8ea15d85f2f",
+                "url": "https://api.github.com/repos/eliashaeussler/typo3-vendor-bundler/zipball/76760a936dcd8a6bd1668aa97a00cf81f234d210",
+                "reference": "76760a936dcd8a6bd1668aa97a00cf81f234d210",
                 "shasum": ""
             },
             "require": {
@@ -5612,17 +5622,17 @@
             },
             "require-dev": {
                 "armin/editorconfig-cli": "^2.1",
-                "composer/composer": "~2.2.28 || ~2.10.0",
+                "composer/composer": "~2.2.28 || ~2.11.0",
                 "composer/semver": "^3.0",
                 "composer/spdx-licenses": "^1.5.7",
                 "eliashaeussler/php-cs-fixer-config": "^3.0",
                 "eliashaeussler/phpstan-config": "^4.0",
-                "eliashaeussler/rector-config": "^4.0",
                 "ergebnis/composer-normalize": "^2.47",
                 "phpstan/extension-installer": "^1.4",
                 "phpstan/phpstan-phpunit": "^2.0",
                 "phpstan/phpstan-symfony": "^2.0",
                 "phpunit/phpunit": "^11.5 || ^12.5 || ^13.0",
+                "rector/rector": "^2.8",
                 "shipmonk/composer-dependency-analyser": "^1.8"
             },
             "type": "composer-plugin",
@@ -5649,9 +5659,10 @@
             "description": "Composer plugin to bundle vendor libraries for TYPO3 extensions in classic mode",
             "support": {
                 "issues": "https://github.com/eliashaeussler/typo3-vendor-bundler/issues",
-                "source": "https://github.com/eliashaeussler/typo3-vendor-bundler/tree/4.1.1"
+                "source": "https://github.com/eliashaeussler/typo3-vendor-bundler/tree/4.1.2"
             },
-            "time": "2026-07-30T14:03:06+00:00"
+            "time": "2026-11-06T19:03:27+00:00",
+            "published-time": "2026-11-06T19:04:06+00:00"
         },
         {
             "name": "eliashaeussler/version-bumper",
@@ -6142,7 +6153,8 @@
                 "issues": "https://github.com/opis/json-schema/issues",
                 "source": "https://github.com/opis/json-schema/tree/2.6.0"
             },
-            "time": "2025-10-17T12:46:48+00:00"
+            "time": "2025-10-17T12:46:48+00:00",
+            "published-time": "2025-10-17T12:48:22+00:00"
         },
         {
             "name": "opis/string",
@@ -6204,7 +6216,8 @@
                 "issues": "https://github.com/opis/string/issues",
                 "source": "https://github.com/opis/string/tree/2.1.0"
             },
-            "time": "2025-10-17T12:38:41+00:00"
+            "time": "2025-10-17T12:38:41+00:00",
+            "published-time": "2025-10-17T12:40:48+00:00"
         },
         {
             "name": "opis/uri",
@@ -6267,7 +6280,8 @@
                 "issues": "https://github.com/opis/uri/issues",
                 "source": "https://github.com/opis/uri/tree/1.1.0"
             },
-            "time": "2021-05-22T15:57:08+00:00"
+            "time": "2021-05-22T15:57:08+00:00",
+            "published-time": "2021-05-22T16:01:15+00:00"
         },
         {
             "name": "package-url/packageurl-php",
@@ -6333,7 +6347,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-05T11:20:07+00:00"
+            "time": "2024-02-05T11:20:07+00:00",
+            "published-time": "2024-02-05T11:21:28+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -10339,5 +10354,5 @@
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
